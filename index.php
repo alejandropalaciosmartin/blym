@@ -2,7 +2,7 @@
 // Inicia la sesión PHP para poder redireccionar al usuario tras el inicio de sesión exitoso
 session_start();
 
-include './reusable/bd.php';
+include './assets/reusable/bd.php';
 
 // Verifica si se envió el formulario de inicio de sesión
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signin'])) {
@@ -26,16 +26,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signin'])) {
 
 // Verifica si se envió el formulario de registro
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
-    $name = $_POST['name'];
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
+    $username = $_POST['username'];
     $email = $_POST['email'];
-    $password = $_POST['password']; // Considera hashear la contraseña
+    $password = $_POST['password'];
 
-    $sql = "INSERT INTO usuarios (name, email, password) VALUES ('$name', '$email', '$password')";
-    if ($db->query($sql) === TRUE) {
-        $success = "Registro exitoso. Ahora puedes iniciar sesión.";
-    } else {
-        $error = "Error al registrar: " . $db->error;
+    $validUsername = "SELECT user_id FROM users WHERE user_handle = '$username'";
+    $resultUsername = $db->query($validUsername);
+
+    $validEmail = "SELECT user_id FROM users WHERE email_address = '$email'";
+    $resultEmail = $db->query($validEmail);
+
+    if ($resultUsername->num_rows > 0 || $resultEmail->num_rows > 0) {
+        if ($resultUsername->num_rows > 0) {
+            $_SESSION['error'] = "Username is already in use. Try another one";
+        } else {
+            $_SESSION['error'] = "Email is already in use. Try another one";
+        }
+        // Guardar otros campos en la sesión
+        $_SESSION['form_data'] = [
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            // No guardar 'username' si es el que tiene error
+            'email' => $resultEmail->num_rows > 0 ? '' : $email,
+            // No guardar 'email' si es el que tiene error
+            'username' => $resultUsername->num_rows > 0 ? '' : $username,
+        ];
     }
+    else {
+        $sql = "INSERT INTO usuarios (user_handle, email_address, first_name, last_name, password) VALUES ('$username', '$first_name', '$last_name', '$email', '$password')";
+        if ($db->query($sql) === TRUE) {
+            $_SESSION['success'] = "Successful registration. Sign in now.";
+        } else {
+            $_SESSION['error'] = "Registration error: " . $db->error;
+        }
+    }
+
 }
 ?>
 
@@ -58,9 +85,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
         <div class="form-container sign-up">
             <form method="POST" action="index.php">
                 <h1>Create Account</h1>
-                <input type="text" name="name" placeholder="Name" required autofocus>
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
+                <input type="text" name="first_name" placeholder="First Name" required value="<?php echo isset($_SESSION['form_data']['first_name']) ? htmlspecialchars($_SESSION['form_data']['first_name']) : ''; ?>">
+                
+                <input type="text" name="last_name" placeholder="Last Name" required value="<?php echo isset($_SESSION['form_data']['last_name']) ? htmlspecialchars($_SESSION['form_data']['last_name']) : ''; ?>">
+                
+                <input type="text" name="username" placeholder="User Name" required value="<?php echo isset($_SESSION['form_data']['username']) ? htmlspecialchars($_SESSION['form_data']['username']) : ''; ?>">
+                
+                <input type="email" name="email" placeholder="Email" required value="<?php echo isset($_SESSION['form_data']['email']) ? htmlspecialchars($_SESSION['form_data']['email']) : ''; ?>">
+
+                <div style="position: relative;">
+                    <input type="password" name="password" id="password" placeholder="Password" required">
+                    <button type="button" onclick="togglePasswordVisibility()" style="position: absolute; right: 0; top: 0; padding: 10px; cursor: pointer;">👁️</button>
+                </div>
                 <button type="submit" name="signup">Sign Up</button>
             </form>
         </div>
@@ -77,6 +113,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
         <?php if (isset($_SESSION['error'])): ?>
             <div id="error-message"><?php echo $_SESSION['error']; ?></div>
             <?php unset($_SESSION['error']); // Importante: borrar el mensaje después de mostrarlo ?>
+        <?php endif; ?>
+
+        <!-- En el HTML, para mostrar el mensaje de que el registro ha salido bien -->
+        <?php if (isset($_SESSION['success'])): ?>
+            <div id="success-message"><?php echo $_SESSION['success']; ?></div>
+            <?php unset($_SESSION['success']); // Importante: borrar el mensaje después de mostrarlo ?>
         <?php endif; ?>
 
 

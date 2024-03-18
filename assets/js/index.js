@@ -9,3 +9,9 @@ registerBtn.addEventListener('click', () => {
 loginBtn.addEventListener('click', () => {
     container.classList.remove("active");
 });
+
+function togglePasswordVisibility() {
+    var passwordInput = document.getElementById('password');
+    var passwordType = passwordInput.type === 'password' ? 'text' : 'password';
+    passwordInput.type = passwordType;
+}
