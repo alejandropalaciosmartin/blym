@@ -38,26 +38,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
     $validEmail = "SELECT user_id FROM users WHERE email_address = '$email'";
     $resultEmail = $db->query($validEmail);
 
-    if ($resultUsername->num_rows > 0 || $resultEmail->num_rows > 0) {
-        if ($resultUsername->num_rows > 0) {
-            $_SESSION['error'] = "Username is already in use. Try another one";
-        } else {
+    $resultFirstNameOneWord = False;
+    $resultLastNameOneWord = False;
+    $resultUsernameOneWord = False;
+
+    if ($resultUsername->num_rows > 0 || $resultEmail->num_rows > 0 || preg_match('/^[a-zA-Z]+$/', $first_name) === 0 || preg_match('/^[a-zA-Z]+$/', $last_name) === 0 || preg_match('/^[a-zA-Z]+$/', $username) === 0){
+        if(preg_match('/^[a-zA-Z]+$/', $first_name) === 0) {
+            $_SESSION['error'] = "First name must contain only letters and one word";
+            $resultFirstNameOneWord = True;
+        }
+        elseif(preg_match('/^[a-zA-Z]+$/', $last_name) === 0) {
+            $_SESSION['error'] = "Last name must contain only letters and one word";
+            $resultLastNameOneWord = True;
+        } 
+        elseif (preg_match('/^[a-zA-Z0-9]+$/', $username) === 0 || $resultUsername->num_rows > 0 ) {
+            if (preg_match('/^[a-zA-Z0-9]+$/', $username) === 0) {
+                $_SESSION['error'] = "Username must contain only one word";
+                $resultUsernameOneWord = True;
+            } elseif ($resultUsername->num_rows > 0) {
+                $_SESSION['error'] = "Username is already in use. Try another one";
+            }
+        } elseif ($resultEmail->num_rows > 0) {
             $_SESSION['error'] = "Email is already in use. Try another one";
         }
+        else{}
         // Guardar otros campos en la sesión
         $_SESSION['form_data'] = [
-            'first_name' => $first_name,
-            'last_name' => $last_name,
-            // No guardar 'username' si es el que tiene error
-            'email' => $resultEmail->num_rows > 0 ? '' : $email,
-            // No guardar 'email' si es el que tiene error
-            'username' => $resultUsername->num_rows > 0 ? '' : $username,
+            'first_name' => $resultFirstNameOneWord ? '' : ucfirst(strtolower($first_name)),
+            'last_name' => $resultLastNameOneWord ? '' : ucfirst(strtolower($last_name)),
+            'email' => $resultEmail->num_rows > 0 ? '' : ucfirst(strtolower($email)),
+            'username' => $resultUsername->num_rows > 0 || $resultUsernameOneWord ? '' : ucfirst(strtolower($username))
         ];
     }
     else {
-        $sql = "INSERT INTO usuarios (user_handle, email_address, first_name, last_name, password) VALUES ('$username', '$first_name', '$last_name', '$email', '$password')";
+        $first_name = ucfirst(strtolower($first_name));
+        $last_name = ucfirst(strtolower($last_name));
+
+        $sql = "INSERT INTO users (user_handle, email_address, first_name, last_name, password) VALUES ('$username', '$email', '$first_name', '$last_name', '$password')";
         if ($db->query($sql) === TRUE) {
             $_SESSION['success'] = "Successful registration. Sign in now.";
+            $_SESSION['form_data'] = [
+                'first_name' => '',
+                'last_name' => '',
+                'email' => '',
+                'username' => ''
+            ];
         } else {
             $_SESSION['error'] = "Registration error: " . $db->error;
         }
@@ -81,7 +106,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
 
 <body>
     <p class="title">BLYM</p>
-    <div class="container" id="container">
+    <?php
+        if (isset($_SESSION['error'])) {
+            if($_SESSION['error'] != 'Usuario o contraseña incorrecta' ) {
+            echo "<div class='container active' id='container'>";
+            }
+            else {
+                echo "<div class=container id=container>";
+            }
+        } else {
+            echo "<div class=container id=container>";
+        }
+    ?>
         <div class="form-container sign-up">
             <form method="POST" action="index.php">
                 <h1>Create Account</h1>
