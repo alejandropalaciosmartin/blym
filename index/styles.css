@@ -42,24 +42,6 @@ body{
     margin: 20px 0;
 }
 
-/* .container button{
-    background-color: #512da8;
-    color: #fff;
-    font-size: 12px;
-    padding: 10px 45px;
-    border: 1px solid transparent;
-    border-radius: 8px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    margin-top: 10px;
-    cursor: pointer;
-}
-
-.container button.hidden{
-    background-color: transparent;
-    border-color: #fff;
-} */
 .container button {
     background-color: #512da8;
     color: #fff;
@@ -257,3 +239,15 @@ input:focus {
     animation: fadeOut 0.5s ease-out 6s forwards;
 }
 
+.container button.eye {
+    position: absolute; 
+    right: 0; 
+    top: 0; 
+    padding: 10px; 
+    cursor: pointer;
+}
+
+.input-pass {
+    position: relative;
+    width: 100%;
+}

@@ -11,8 +11,13 @@ loginBtn.addEventListener('click', () => {
     container.classList.remove("active");
 });
 
-function togglePasswordVisibility() {
-    var passwordInput = document.getElementById('password');
+function togglePasswordVisibilitySignIn() {
+    var passwordInput = document.getElementById('password_in');
+    var passwordType = passwordInput.type === 'password' ? 'text' : 'password';
+    passwordInput.type = passwordType;
+}
+function togglePasswordVisibilitySignUp() {
+    var passwordInput = document.getElementById('password_up');
     var passwordType = passwordInput.type === 'password' ? 'text' : 'password';
     passwordInput.type = passwordType;
 }

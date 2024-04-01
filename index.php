@@ -15,11 +15,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signin'])) {
     if ($result->num_rows > 0) {
         // Inicio de sesión exitoso, redirecciona a master.php
         $_SESSION['user'] = $email; // Guarda el email en la sesión
-        header("Location: master.php");
+        header("Location: ./master/");
         exit();
     } else {
-        $_SESSION['error'] = "Usuario o contraseña incorrecta";
-        header('Location: index.php'); // Redireccionamiento aquí
+        $_SESSION['error'] = "User or password incorrect";
+        header('Location: ./index.php'); // Redireccionamiento aquí
         exit();
     }
 }
@@ -41,8 +41,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
     $resultFirstNameOneWord = False;
     $resultLastNameOneWord = False;
     $resultUsernameOneWord = False;
+    $resultEmailValid = False;
 
-    if ($resultUsername->num_rows > 0 || $resultEmail->num_rows > 0 || preg_match('/^[a-zA-Z]+$/', $first_name) === 0 || preg_match('/^[a-zA-Z]+$/', $last_name) === 0 || preg_match('/^[a-zA-Z]+$/', $username) === 0){
+    if ($resultUsername->num_rows > 0 || $resultEmail->num_rows > 0 || preg_match('/^[a-zA-Z]+$/', $first_name) === 0 || preg_match('/^[a-zA-Z]+$/', $last_name) === 0 || preg_match('/^[a-zA-Z]+$/', $username) === 0 || preg_match('/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/', $email) === 0) {
         if(preg_match('/^[a-zA-Z]+$/', $first_name) === 0) {
             $_SESSION['error'] = "First name must contain only letters and one word";
             $resultFirstNameOneWord = True;
@@ -52,22 +53,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
             $resultLastNameOneWord = True;
         } 
         elseif (preg_match('/^[a-zA-Z0-9]+$/', $username) === 0 || $resultUsername->num_rows > 0 ) {
-            if (preg_match('/^[a-zA-Z0-9]+$/', $username) === 0) {
+            if ($resultUsername->num_rows > 0) {
+                $_SESSION['error'] = "Username is already in use. Try another one";
+            } else {
                 $_SESSION['error'] = "Username must contain only one word";
                 $resultUsernameOneWord = True;
-            } elseif ($resultUsername->num_rows > 0) {
-                $_SESSION['error'] = "Username is already in use. Try another one";
-            }
-        } elseif ($resultEmail->num_rows > 0) {
-            $_SESSION['error'] = "Email is already in use. Try another one";
+            } 
+        } elseif ($resultEmail->num_rows > 0 || preg_match('/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/', $email) === 0 ) {
+            if ($resultEmail->num_rows > 0) {
+                $_SESSION['error'] = "Email is already in use. Try another one";
+            } else {
+                $_SESSION['error'] = "Email is not write correctly. Try again.";
+                $resultEmailValid = True;
+            } 
         }
         else{}
         // Guardar otros campos en la sesión
         $_SESSION['form_data'] = [
             'first_name' => $resultFirstNameOneWord ? '' : ucfirst(strtolower($first_name)),
             'last_name' => $resultLastNameOneWord ? '' : ucfirst(strtolower($last_name)),
-            'email' => $resultEmail->num_rows > 0 ? '' : ucfirst(strtolower($email)),
-            'username' => $resultUsername->num_rows > 0 || $resultUsernameOneWord ? '' : ucfirst(strtolower($username))
+            'email' => $resultEmail->num_rows > 0 || $resultEmailValid ? '' : strtolower($email),
+            'username' => $resultUsername->num_rows > 0 || $resultUsernameOneWord ? '' : $username
         ];
     }
     else {
@@ -100,24 +106,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="icon" href="./assets/images/b.svg" type="image/x-icon">
-    <link rel="stylesheet" href="./assets/css/index.css">
+    <link rel="stylesheet" href="./index/styles.css">
     <title>Blym</title>
 </head>
 
 <body>
     <p class="title">BLYM</p>
-    <?php
-        if (isset($_SESSION['error'])) {
-            if($_SESSION['error'] != 'Usuario o contraseña incorrecta' ) {
-            echo "<div class='container active' id='container'>";
-            }
-            else {
-                echo "<div class=container id=container>";
-            }
-        } else {
-            echo "<div class=container id=container>";
-        }
-    ?>
+
+    <div class=container id=container>
         <div class="form-container sign-up">
             <form method="POST" action="index.php">
                 <h1>Create Account</h1>
@@ -129,9 +125,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
                 
                 <input type="email" name="email" placeholder="Email" required value="<?php echo isset($_SESSION['form_data']['email']) ? htmlspecialchars($_SESSION['form_data']['email']) : ''; ?>">
 
-                <div style="position: relative;">
-                    <input type="password" name="password" id="password" placeholder="Password" required">
-                    <button type="button" onclick="togglePasswordVisibility()" style="position: absolute; right: 0; top: 0; padding: 10px; cursor: pointer;">👁️</button>
+                <div class="input-pass">
+                    <input type="password" name="password" id="password_up" placeholder="Password" required">
+                    <button type="button" onclick="togglePasswordVisibilitySignUp()" class="eye">👁️</button>
                 </div>
                 <button type="submit" name="signup">Sign Up</button>
             </form>
@@ -140,7 +136,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
         <form method="POST" action="index.php">
             <h1>Sign In</h1>
                 <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
+
+                <div class="input-pass">
+                    <input type="password" name="password" id="password_in" placeholder="Password" required>
+                    <button type="button" onclick="togglePasswordVisibilitySignIn()" class="eye">👁️</button>
+                </div>
+
                 <button type="submit" name="signin">Sign In</button>
             </form>
         </div>
@@ -174,7 +175,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
         </div>
     </div>
 
-    <script src="./assets/js/index.js"></script>
+    <script src="./index/scripts.js"></script>
 </body>
 
 </html>
