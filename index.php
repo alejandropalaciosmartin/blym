@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signin'])) {
 
         $_SESSION['user'] = $email; // Guarda el email en la sesión
 
-        if($email == 'srjalean@gmail.com') { 
+        if($email == 'srjalean@gmail.com') {  // TODO: Considerar añadir columna de rol en la base de datos
             header("Location: ./master/"); // Redirecciona al usuario a la página de administrador
             exit();
         } else { 
@@ -122,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="icon" href="./assets/images/b.svg" type="image/x-icon">
-    <link rel="stylesheet" href="./index/styles.css">
+    <link rel="stylesheet" href="./index/styles.css?v=2">
     <title>Blym</title>
 </head>
 
@@ -133,7 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
         <div class="form-container sign-up">
             <form method="POST" action="index.php">
                 <h1>Create Account</h1>
-                <input type="text" name="first_name" placeholder="First Name" autocomplete="off" required value="<?php echo isset($_SESSION['form_data']['first_name']) ? htmlspecialchars($_SESSION['form_data']['first_name']) : ''; ?>">
+                <input type="text" name="first_name" placeholder="First Name" required value="<?php echo isset($_SESSION['form_data']['first_name']) ? htmlspecialchars($_SESSION['form_data']['first_name']) : ''; ?>">
                 
                 <input type="text" name="last_name" placeholder="Last Name" required value="<?php echo isset($_SESSION['form_data']['last_name']) ? htmlspecialchars($_SESSION['form_data']['last_name']) : ''; ?>">
                 
@@ -143,7 +143,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
 
                 <div class="input-pass">
                     <input type="password" name="password" id="password_up" placeholder="Password" required">
-                    <button type="button" onclick="togglePasswordVisibilitySignUp()" class="eye">
+                    <button type="button" onclick="togglePasswordVisibilitySignUp()" class="eye" id="eye_up">
                         <i class="fa-solid fa-eye" style="color: #ffffff;"></i>
                     </button>
                 </div>
@@ -157,7 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
 
                 <div class="input-pass">
                     <input type="password" name="password" id="password_in" placeholder="Password" required>
-                    <button type="button" onclick="togglePasswordVisibilitySignIn()" class="eye">
+                    <button type="button" onclick="togglePasswordVisibilitySignIn()" class="eye" id="eye_in">
                         <i class="fa-solid fa-eye" style="color: #ffffff;"></i>
                     </button>
                 </div>

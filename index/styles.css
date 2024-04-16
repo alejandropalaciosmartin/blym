@@ -56,13 +56,11 @@ body{
     cursor: pointer;
 }
 
-/* Efecto hover */
 .container button:hover {
-    background-color: #5d18ff; /* Un tono ligeramente más claro o más oscuro para el efecto hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añade una sombra para un efecto "elevado" */
+    background-color: #5d18ff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Botón con clase 'hidden' */
 .container button.hidden {
     background-color: transparent;
     border-color: #fff;
@@ -248,4 +246,19 @@ input:focus {
 .input-pass {
     position: relative;
     width: 100%;
+}
+
+.eye i {
+    width: 24px;
+    display: inline-block;
+    text-align: center;
+}
+
+
+@media screen and (max-width: 440px){
+
+    .container button.eye{
+        right: -35px;
+    }
+
 }
