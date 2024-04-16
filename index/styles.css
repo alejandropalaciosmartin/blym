@@ -52,15 +52,13 @@ body{
     font-weight: 600;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    margin-top: 10px;
+    margin-top: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Añadir transiciones suaves para el efecto hover */
 }
 
 /* Efecto hover */
 .container button:hover {
     background-color: #5d18ff; /* Un tono ligeramente más claro o más oscuro para el efecto hover */
-    transform: translateY(-2px); /* Eleva ligeramente el botón */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Añade una sombra para un efecto "elevado" */
 }
 
