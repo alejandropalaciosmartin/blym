@@ -54,7 +54,7 @@
                 <!-- =============== Start Aside Bar =============== -->
                 <aside>
                      <a class="menu-item" id="btn1">
-                        <span><img src="../assets/images/svg/bell.svg" alt=""></span>
+                        <span><img src="../assets/images/svg/user.svg" alt=""></span>
                         <h3>Users</h3>
                      </a>
 
@@ -64,7 +64,7 @@
                      </a>
 
                      <a class="menu-item" id="btn3">
-                        <span><img src="../assets/images/svg/bookmarks.svg" alt=""></span> <h3>Stats</h3>
+                        <span><img src="../assets/images/svg/graph-up-arrow.svg" alt=""></span> <h3>Stats</h3>
                      </a>
 
                      <a class="menu-item">
