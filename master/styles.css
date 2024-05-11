@@ -1,178 +1,697 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
-
-*{
+*, *::before, *::after {
     margin: 0;
-    padding: 10px;
+    padding: 0;
     box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
+    outline: none;
+    text-decoration: none;
+    list-style: none;
+    border: none;
+}
+:root{
+    --color-white: hsl(252, 30%, 100%);
+    --color-light: hsl(252, 30%, 93%);
+    --color-gray: hsl(252, 15%, 60%);
+    --color-primary: hsl(252, 75%, 60%);
+    --color-secondary: hsl(252, 100%, 60%);
+    --color-success: hsl(120, 95%, 60%);
+    --color-danger: hsl(0, 95%, 60%);
+    --color-dark: hsl(252, 30%, 15%);
+    --color-black: hsl(252, 30%, 8%);
+
+
+    --border-radius: 2rem;
+    --card-border-radius: 1rem;
+
+    --btn-padding: .6rem 2rem;
+
+    --search-padding: .6rem 1rem;
+    --card-padding: 1rem;
 }
 
 body{
-    background-color: #c9d6ff;
-    background: linear-gradient(to right, #e2e2e2, #c9d6ff);
-    height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--color-dark);
+    background-color: var(--color-light);
 }
 
-header {
-    background-color: transparent;
+.container{
+    width: 90%;
+    margin: 0 auto;
+}
+
+img{
+    display: block;
+    width: 100%;
+}
+
+.profile-picture{
+    width: 3rem;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.profile-picture:hover{
+    opacity: 0.75;
+}
+
+.btn{
+    padding: var(--btn-padding);
+    display: inline-block;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: 300ms ease all;
+}
+.btn:hover{
+    opacity: 0.75rem;
+}
+.btn-primary{
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+.text-bold{
+    font-weight: 500;
+}
+.text-gry{
+    color: var(--color-gray);
+}
+
+
+
+/* =========================== Start Navbar =========================== */
+nav{
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+    padding: .7rem 0;
+    background: var(--color-white);
+}
+.nav-container{
     display: flex;
     justify-content: space-between;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
+    align-items: center;
+}
+nav .search-bar{
+    padding: var(--search-padding);
+    background: var(--color-light);
+    border-radius: var(--border-radius);
+}
+nav .search-bar input[type="search"]{
+    background: transparent;
+    width: 30vw;
+    margin-left: 1rem;
+    font-size: .9rem;
+    color: var(--color-dark)
+}
+nav .search-bar input[type="search"]::placeholder{
+    color: var(--color-gray);
+}
+.add-post{
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+.logo h3{
+    font-size: 1.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    user-select: none;
+    color: var(--color-dark);
+}
+.logo span{
+    color: var(--color-danger);
+}
+/* ========================== End Navbar ========================== */
+
+
+
+/* ========================== Start Main Section ========================== */
+main{
+    position: relative;
+    top: 6rem;
+}
+.main-container{
+    display: grid;
+    grid-template-columns: 18vw auto;
+    position: relative;
 }
 
-header button {
-    padding: 15px 25px;
-    border: unset;
-    border-radius: 15px;
-    color: #000000;
-    z-index: 1;
-    background: #e8e8e8;
-    position: relative;
-    font-weight: 1000;
-    font-size: 17px;
-    -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
-    box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
-    transition: all 250ms;
-    overflow: hidden;
-    cursor: pointer;
-    flex: 1;
-    max-width: 33%;
-    font-size: 20px;
+
+/* ........... Start Main Left ........... */
+.main-left{
+    position: sticky;
+    height: max-content;
+    top: 5.4rem;
 }
-   
-header button::before {
-    content: "";
+.main-left .profile{
+    background: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    width: 100%;
+    gap: 1rem;
+    display: flex;
+}
+
+aside{
+    margin-top: 1rem;
+    border-radius: var(--card-border-radius);
+}
+aside .menu-item{
+    display: flex;
+    align-items: center;
+    height: 4rem;
+    position: relative;
+    cursor: pointer;
+    transition: 300ms ease all;
+    background: var(--color-white);
+}
+aside .menu-item:hover{
+    background: var(--color-light);
+}
+aside .menu-item span img{
+    width: 1.8rem;
+    margin-left: 2rem;
+    position: relative;
+}
+aside .notfy-counter{
+    background: var(--color-danger);
+    color: var(--color-white);
+    width: fit-content;
+    font-size: .7rem;
+    border-radius: 30%;
+    padding: .1rem .4rem;
+    position: absolute;
+    top: .7rem;
+    left: 3.2rem;
+}
+aside .menu-item h3{
+    font-size: 1rem;
+    margin-left: 1.5rem;
+}
+aside .active{
+    background: var(--color-light);
+}
+aside .active h3{
+    color: var(--color-primary);
+}
+aside .active:before{
+    content: '';
+    display: block;
+    width: .5rem;
+    height: 100%;
+    background: var(--color-primary);
+}
+aside .menu-item:nth-child(1){
+    overflow: hidden;
+    border-top-left-radius: var(--card-border-radius);
+    border-top-right-radius: var(--card-border-radius);
+}
+aside .menu-item:nth-last-child(2){
+    overflow: hidden;
+    border-bottom-left-radius: var(--card-border-radius);
+    border-bottom-right-radius: var(--card-border-radius);
+}
+.btn-lg{
+    padding:1rem 0;
+    width: 100%;
+    text-align: center;
+    margin-top: 1rem;
+}
+/* ........... End Main Left ........... */
+
+
+/* ........... Start Notification Box ........... */
+.notification-box{
+    width: 30rem;
+    left: 110%;
     position: absolute;
     top: 0;
-    left: 0;
-    height: 100%;
-    width: 0;
-    border-radius: 15px;
-    background-color: #6e4ac4;
-    z-index: -1;
-    -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
-    box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
-    transition: all 250ms;
-}
-   
-header button:hover {
-    color: #e8e8e8;
-}
-   
-header button:hover::before {
-    width: 100%;
-}
-
-header button.active {
-    background-color: #517cd9; 
-    color: #ffffff;
-}
-  
-.hidden {
+    background: var(--color-white);
+    border-radius: var(--card-border-radius);
+    padding: var(--card-padding);
+    box-shadow: var(--color-primary) 0 0 1rem;
+    z-index: 8;
     display: none;
 }
-  
-main {
-    overflow-y: auto; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+.notification-box::before{
+    content: '';
+    width: 1.2rem;
+    height: 1.2rem;
+    background: var(--color-white);
+    position: absolute;
+    left: -.6rem;
+    transform: rotate(45deg);
 }
+.notification-box>div{
+    display: flex;
+    gap: 1rem;
+    align-items: start;
+    margin-bottom: 1rem;
+}
+.notification-box .profile-picture{
+    width: 2.6rem;
+}
+.notification-box>div small{
+    display: block;
+}
+/* ........... End Notification Box ........... */
 
-#div1, #div2, #div3 {
+
+/* ........... Start Main Medle ........... */
+
+/* .... Stories start .... */
+.middle-container{
+    max-width: 700px;
+    width: 90%;
+    margin: 0 auto;
+}
+.stories-wrapper{
+    display: flex;
+    gap: .5rem;
+    height: 12rem !important;
+}
+.stories-wrapper .story{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+}
+.story input{
+    display: none;
+}
+.story::before{
+    height: 5rem;
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 0;
+    background: linear-gradient(transparent, var(--color-primary));
     width: 100%;
 }
-
-#userList {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    padding: 20px;
+.stories-wrapper .story:first-child{
+    background: var(--color-primary);
 }
-
-#userList div {
-    background: #fff;
-    padding: 10px;
-    box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
-    border-radius: 10px;
-    text-align: center;
-}
-
-@media screen and (max-width: 600px) {
-    header {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    header button {
-        max-width: 100%;
-        padding: 10px 20px;
-        font-size: 15px;
-    }
-}
-
-button {
-    width: 150px;
-    height: 50px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    background: red;
-    border: none;
-    border-radius: 5px;
-    box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
-    background: #e62222;
-   }
-   
-   button, button span {
-    transition: 200ms;
-   }
-   
-   button .text {
-    transform: translateX(35px);
-    color: white;
-    font-weight: bold;
-   }
-   
-   button .icon {
+.story .profile-picture{
     position: absolute;
-    border-left: 1px solid #c41b1b;
-    transform: translateX(110px);
-    height: 40px;
-    width: 40px;
+    top: .6rem;
+    left: 0.2rem;
+    width: 2.4rem;
+    border: 2px dashed var(--color-primary);
+    z-index: 8;
+}
+.story p{
+    text-align: center;
+    margin-top: -4rem;
+    color: var(--color-white);
+    z-index: 8;
+    position: absolute;
+    width: 100%;
+}
+.story>img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.story .add-story{
     display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    background: var(--color-primary);
+    top: 0;
+    position: absolute;
     align-items: center;
     justify-content: center;
-   }
-   
-   button svg {
-    width: 15px;
-    fill: #eee;
-   }
-   
-   button:hover {
-    background: #ff3636;
-   }
-   
-   button:hover .text {
-    color: transparent;
-   }
-   
-   button:hover .icon {
-    width: 150px;
-    border-left: none;
-    transform: translateX(0);
-   }
-   
-   button:focus {
-    outline: none;
-   }
-   
-   button:active .icon svg {
-    transform: scale(0.8);
-   }
-  
-  
+    text-align: center;
+}
+.story .add-story i{
+    display: block;
+    font-size: 1.4rem;
+    margin-top: -1rem;
+    color: var(--color-white);
+}
+.story .add-story p{
+    margin-bottom: -7rem;
+}
+
+/* .... Stories end .... */
+
+.main-middle .add-post{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .4rem var(--card-padding);
+    border-radius: var(--border-radius);
+    background: var(--color-white);
+    margin-top: 1rem;
+}
+.main-middle .add-post input[type="text"]{
+    justify-self: start;
+    width: 100%;
+    padding-left: 1rem;
+    background: transparent;
+    color: var(--color-dark);
+    margin-right: 1rem;
+}
+.main-middle .add-post .profile-picture{
+    width: 2.8rem;
+}
+
+/* .... Start Feed Aria .... */
+.feeds .feed{
+    background: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    margin: 1rem auto;
+    line-height: 1.5;
+    font-size: .85rem;
+    position: relative;
+}
+.feeds .feed .feed-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+.feed .feed-top .user{
+    display: flex;
+    gap: 1rem;
+}
+.feed .feed-top .edit img{
+    width: 1.6rem;
+}
+.feed .feed-img{
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+    margin: .8rem 0;
+}
+.feed .action-button{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.4rem;
+    margin: 0.6rem;
+}
+.action-button span:first-child i{
+    font-weight: normal;
+}
+.action-button span:nth-child(2) i{
+    font-weight: normal;
+}
+.bookmark{
+    font-weight: normal;
+}
+.liked-by{
+    display: flex;
+}
+.liked-by span{
+    border-radius: 50%;
+    display: block;
+    height: 1.4rem;
+    width: 1.4rem;
+    overflow: hidden;
+    margin-left: -.6rem;
+    border: 2px solid var(--color-white);
+}
+.liked-by span:first-child{
+    margin: 0;
+}
+.liked-by p{
+    margin-left: .5rem;
+}
+.hars-tag{
+    color: var(--color-primary)
+}
+.edit .edit-menu{
+    background: var(--color-white);
+    padding: var(--card-border-radius);
+    border-radius: var(--card-border-radius);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: absolute;
+    right: 0;
+    box-shadow: 0 0 .2rem var(--color-primary);
+    top: 2.4rem;
+    transform: scale(0);
+    transition: 300ms ease all;
+    transform-origin: top right;
+}
+.edit:hover .edit-menu{
+    transform: scale(1);
+}
+.edit .edit-menu li{
+    display: flex;
+    gap: .7rem;
+    align-items: center;
+    font-size: 1rem;
+    color: var(--color-gray);
+    transition: 300ms ease all;
+}
+.edit .edit-menu li:hover{
+    color: var(--color-dark);
+}
+.edit .edit-menu li:last-child:hover{
+    color: var(--color-danger);
+}
+/* .... End Feed Aria .... */
+
+/* ........... End Main Medle ........... */
+
+/* ========================== End Main Section ========================== */
+
+
+
+/* ========================== Start  Popup Aria ========================== */
+
+/* ........... Start Profile Popup ........... */
+.popup{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    justify-content: center;
+    z-index: 9;
+    background: #000000ba;
+    display: none;
+}
+.popup>div{
+    display: flex;
+}
+.popup-box{
+    width: 400px;
+    height: 460px;
+    background: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+.profile-popup-box>div{
+    height: 10rem;
+    width: 10rem;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-top: 2rem;
+}
+#profile-upload{
+    display: none;
+}
+.profile-popup-box h1{
+    line-height: 1.8;
+}
+.popup .close{
+    font-size: 1.6rem;
+    color: var(--color-white);
+    margin-left: .5rem;
+    margin-top: -.5rem;
+    cursor: pointer;
+    transition: 300ms ease all;
+}
+.popup .close:hover{
+    color: var(--color-primary);
+}
+/* ........... End Profile Popup ........... */
+
+/* ........... Start Add post Popup ........... */
+.add-post-popup{
+    /* display: flex; */
+    gap: 1rem;
+}
+.post-title{
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+.post-title label{
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+.post-title input{
+    background: var(--color-light);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    font-size: 1.1rem;
+}
+.post-title input:focus{
+    border: 1px solid var(--color-gray);
+}
+.post-img{
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+.post-img input[type="file"]{
+    display: none;
+}
+.post-img img{
+    width: 6rem;
+    margin: auto;
+}
+.post-img .feed-upload-button{
+    padding: var(--card-padding);
+    border: 2px dashed var(--color-dark);
+    font-weight: bold;
+}
+/* ........... End Add post Popup ........... */
+
+/* ========================== End Popup Aria ========================== */
+
+
+
+/* ========================== JS Other Classes ========================== */
+.boxshadow1{
+    box-shadow: 0 0 .5rem var(--color-primary);
+}
+
+.liked{
+    font-weight: bold !important;
+    color: var(--color-danger);
+    transform: scale(1.1);
+    transition: 300ms ease all;
+}
+/* ========================== End JS Other Classes ========================== */
+
+
+
+/* ========================== Start Media Queryes ========================== */
+/* ........... MAX WIDTH(1200PX) ........... */
+@media (max-width: 1200px){
+    .container{
+        width: 96%;
+    }
+    .main-container{
+        grid-template-columns: auto;
+    }
+    .main-left{
+        width: 5rem;
+        z-index: 5;
+        position: fixed;
+        top: 8%;
+        left: 0;
+    }
+    .main-container .main-left .profile{
+        display: none;
+    }
+    aside h3{
+        display: none;
+    }
+    aside .menu-item span img{
+        margin-left: 1.5rem;
+    }
+    aside .btn{
+        display: none;
+    }
+    
+    /* ........... MAX WIDTH(1200PX) ........... */
+    @media (max-width: 991px) {
+        nav .search-bar{
+            display: none;
+        }
+    }
+    /* ........... MAX WIDTH(1200PX) ........... */
+    @media (max-width: 900px) {
+        aside {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%; 
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            background: var(--color-white); 
+            border-radius: 0; 
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+        }
+        aside .menu-item {
+            flex-grow: 1;
+            justify-content: center;
+            height: 100%;
+        }
+        aside .menu-item span img {
+            margin: 0;
+        }
+        aside .menu-item h3 {
+            display: none; 
+        }
+        aside .notfy-counter {
+            top: .3rem;
+            left: auto;
+            right: .5rem;
+        }
+        .btn-lg {
+            display: none;
+        }
+        aside .active{
+            background: var(--color-light);
+        }
+        aside .active:before{
+            display: none;
+        }
+        aside .menu-item:nth-child(1) {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+        aside .menu-item:nth-last-child(2) {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    }
+    /* ........... MAX WIDTH(730PX) ........... */
+    @media (max-width: 730px) {
+        .middle-container{
+            max-width: 580px;
+        }
+    }
+    /* ........... MAX WIDTH(620PX) ........... */
+    @media (max-width: 620px) {
+        .middle-container{
+            max-width: 480px;
+        }
+    }
+    /* ........... MAX WIDTH(520PX) ........... */
+    @media (max-width: 520px) {
+        .middle-container{
+            max-width: 380px;
+        }
+    }
+    /* ........... MAX WIDTH(420PX) ........... */
+    @media (max-width: 420px) {
+        .middle-container{
+            max-width: 340px;
+        }
+    }
+
+
+}
+/* ========================== End Media Queryes ========================== */

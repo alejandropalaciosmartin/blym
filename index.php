@@ -121,7 +121,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="icon" href="./assets/images/b.svg" type="image/x-icon">
+    <link rel="icon" href="./assets/images/svg/b.svg" type="image/x-icon">
     <link rel="stylesheet" href="./index/styles.css?v=2">
     <title>Blym</title>
 </head>
