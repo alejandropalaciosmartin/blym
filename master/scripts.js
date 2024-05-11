@@ -20,23 +20,42 @@ document.querySelectorAll('.close').forEach( AllCloser => {
         document.querySelector('.add-post-popup').style.display = 'none'
     })
 })
- 
-// -ESTO ES PARA CAMBIAR LA FOTO DE PERFIL, QUITAR EN UN FUTURO YA QUE LO VAMOS A HACER CON PHP (AJAX)
-document.querySelector('#profile-upload').addEventListener('change',() => {
-    document.querySelectorAll('#my-profile-picture img').forEach(AllMyProfileImg => {
-        AllMyProfileImg.src = URL.createObjectURL(document.querySelector('#profile-upload').files[0])
-    })
-})
 
 
-// --------------------HIGHLIGHT POST INPUT--------------------
 
-document.querySelector('.mini-button').addEventListener('click', () => {
-    const inputPost = document.querySelector('.input-post');
-    inputPost.classList.add('boxshadow1');
 
-    // -ESTO ES PARA QUITAR EL HIGHLIGHT DESPUES DE 3.5 SEGUNDOS
-    setTimeout(() => {
-        inputPost.classList.remove('boxshadow1');
-    }, 3500);
+
+// Establecer el primer botón como activo por defecto
+document.getElementById("btn1").classList.add("active");
+document.getElementById("div1").classList.remove("hidden");
+
+document.getElementById("btn1").addEventListener("click", function() {
+  setActiveButton("btn1");
+  showDiv("div1");
 });
+
+document.getElementById("btn2").addEventListener("click", function() {
+  setActiveButton("btn2");
+  showDiv("div2");
+});
+
+document.getElementById("btn3").addEventListener("click", function() {
+  setActiveButton("btn3");
+  showDiv("div3");
+});
+
+function setActiveButton(btnId) {
+  var buttons = document.querySelectorAll("a");
+  buttons.forEach(function(button) {
+    button.classList.remove("active");
+  });
+  document.getElementById(btnId).classList.add("active");
+}
+
+function showDiv(divId) {
+  var divs = document.querySelectorAll("div[id^='div']");
+  divs.forEach(function(div) {
+    div.classList.add("hidden");
+  });
+  document.getElementById(divId).classList.remove("hidden");
+}

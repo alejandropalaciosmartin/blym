@@ -9,7 +9,7 @@
     <link rel="icon" href="../assets/images/svg/b.svg" type="image/x-icon">
 
     <!-- =============== CUSTOM CSS LINK =============== -->
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./styles.css?v=2">
 
     <!-- =============== Font Awesome Link =============== -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -24,17 +24,11 @@
     <nav>
         <div class="container nav-container">
             <div class="logo">
-                <h3>Social <span>Book</span></h3>
+                <h3>BLYM</span></h3>
             </div>
             <div class="search-bar">
                 <i class="fas fa-search"></i>
                 <input type="search" placeholder="Search For Creators">
-            </div>
-            <div class="add-post">
-                <label for="add-post" class="btn btn-primary mini-button">Add Post</label>
-                <div class="profile-picture" id="my-profile-picture">
-                    <img src="../assets/images/img/user.jpg" alt="">
-                </div>
             </div>
         </div>
     </nav>
@@ -59,82 +53,24 @@
 
                 <!-- =============== Start Aside Bar =============== -->
                 <aside>
-                    <a class="menu-item active">
-                        <span><img src="../assets/images/svg/house-door.svg" alt=""></span> <h3>Home</h3>
-                     </a>
-
-
-                     <a class="menu-item">
+                     <a class="menu-item" id="btn1">
                         <span><img src="../assets/images/svg/bell.svg" alt=""></span>
-                        <small class="notfy-counter">7+</small> 
-                        <h3>Notifications</h3>
-
-                        <!-- =============== Notification Box Start =============== -->
-                        <div class="notification-box">
-                            <div>
-                                <div class="profile-picture">
-                                    <img src="../assets/images/img/user.jpg" alt="">
-                                </div>
-                                <div class="notification-body">
-                                    <b>Maria Lily</b> accepted your friend request
-                                    <small class="text-gry">1 Days Ago</small>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="profile-picture">
-                                    <img src="../assets/images/img/user.jpg" alt="">
-                                </div>
-                                <div class="notification-body">
-                                    <b>Maria Lily</b> accepted your friend request
-                                    <small class="text-gry">1 Days Ago</small>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="profile-picture">
-                                    <img src="../assets/images/img/user.jpg" alt="">
-                                </div>
-                                <div class="notification-body">
-                                    <b>Maria Lily</b> accepted your friend request
-                                    <small class="text-gry">1 Days Ago</small>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="profile-picture">
-                                    <img src="../assets/images/img/user.jpg" alt="">
-                                </div>
-                                <div class="notification-body">
-                                    <b>Maria Lily</b> accepted your friend request
-                                    <small class="text-gry">1 Days Ago</small>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="profile-picture">
-                                    <img src="./Assets/images/img/user.jpg" alt="">
-                                </div>
-                                <div class="notification-body">
-                                    <b>Maria Lily</b> accepted your friend request
-                                    <small class="text-gry">1 Days Ago</small>
-                                </div>
-                            </div>
-                        </div>
+                        <h3>Users</h3>
                      </a>
 
-                     <a class="menu-item">
-                        <span><img src="../assets/images/svg/chat-left-dots.svg" alt=""></span> 
-                        <small class="notfy-counter">3+</small>
-                        <h3>Message</h3>
+                     <a class="menu-item" id="btn2">
+                        <span><img src="../assets/images/svg/chat-left-dots.svg" alt=""></span>
+                        <h3>Posts</h3>
                      </a>
 
-                     <a class="menu-item">
-                        <span><img src="../assets/images/svg/bookmarks.svg" alt=""></span> <h3>Book Marks</h3>
+                     <a class="menu-item" id="btn3">
+                        <span><img src="../assets/images/svg/bookmarks.svg" alt=""></span> <h3>Stats</h3>
                      </a>
 
                      <a class="menu-item">
                         <span><img src="../assets/images/svg/gear.svg" alt=""></span> <h3>Settings</h3>
                      </a>
                 
-                     <!-- =============== Add Post Button =============== -->
-                     <label for="add-post" class="btn btn-primary btn-lg" id="crate-lg">Create A Post</label>
                 </aside>
             </div>
 
@@ -142,7 +78,9 @@
             <!-- =============== Main Middle Start =============== -->
             <div class="main-middle">
                 <div class="middle-container">
-
+                    <div id="div1" class="hidden">USERS</div>
+                    <div id="div2" class="hidden">POSTS</div>
+                    <div id="div3" class="hidden">STATISTICS</div>
                 </div>
             </div>
 
