@@ -1,17 +1,16 @@
 <?php
 include '../../assets/reusable/bd.php';
+$defaultImgPath = '../assets/images/img/user.jpg';
 
 // Obtiene el término de búsqueda desde la URL
 $query = isset($_GET['q']) ? $_GET['q'] : '';
 
 
 $sql = empty($query) ?
-       "SELECT user_id, user_handle, first_name FROM users" :
-       "SELECT user_id, user_handle, first_name FROM users WHERE user_handle LIKE '%$query%' OR first_name LIKE '%$query%'";
+       "SELECT * FROM users" :
+       "SELECT * FROM users WHERE user_handle LIKE '%$query%' OR first_name LIKE '%$query%'";
 
 $result = $db->query($sql);
-
-
 
 
 // Comprueba si hay resultados y los muestra
@@ -19,7 +18,7 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $handle = htmlspecialchars($row['user_handle']);
         $name = htmlspecialchars($row['first_name']);
-        $imgPath = "../assets/images/img/user.jpg";
+        $imgPath = !empty($row['profile_img']) ? './ajax/'.$row['profile_img'] : $defaultImgPath;
         
         echo "<div class='user-card'>
                 <div class='user-details'>

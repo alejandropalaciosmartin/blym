@@ -81,6 +81,19 @@ function showDiv(divId) {
       searchInput.disabled = false; // Habilita el input en otras vistas
       searchUsers(''); // Realiza una búsqueda con el input vacío para actualizar la vista
   }
+
+  switch (divId) {
+    case "div1":
+      searchInput.placeholder = "Search Users";
+      break;
+    case "div2":
+      searchInput.placeholder = "Search Posts";
+      break;
+    case "div3":
+      searchInput.placeholder = "Sataistics of Blym";
+      searchInput.disabled = true; // Deshabilita el input en la vista de la sección 3
+      break;
+  }
 }
 
 
@@ -97,6 +110,7 @@ function searchUsers(query) {
   xhr.send();
 }
 
+
 // --------------------DELETE USER--------------------
 function deleteUser(userId) {
   if (confirm('Are you sure you want to delete this user?')) {
@@ -111,4 +125,37 @@ function deleteUser(userId) {
       };
       xhr.send('id=' + userId);
   }
+}
+
+// --------------------UPLOAD PROFILE PHOTO--------------------
+document.getElementById('profile-upload').addEventListener('change', function() {
+  var fileInput = this;
+  var file = fileInput.files[0];
+  if (file) {
+      // Crea una URL temporal y actualiza la imagen de previsualización
+      var imgUrl = URL.createObjectURL(file);
+      document.querySelector('#my-profile-picture-pop-up').src = imgUrl;
+  }
+});
+
+function uploadImage() {
+  var fileInput = document.getElementById('profile-upload');
+  var file = fileInput.files[0];
+  var formData = new FormData();
+  formData.append('profilePic', file);
+
+  fetch('./ajax/uploadImg.php', {
+      method: 'POST',
+      body: formData,
+  })
+  .then(response => response.text())
+  .then(data => {
+      console.log(data); // Muestra la respuesta del servidor
+      alert("Image uploaded successfully!");
+      window.location.reload();
+  })
+  .catch(error => {
+      console.error('Error:', error);
+      alert("Failed to upload image.");
+  });
 }

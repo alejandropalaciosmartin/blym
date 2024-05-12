@@ -9,7 +9,7 @@
     $result = $db->query($sql);
 
     $row = $result->fetch_assoc();
-    $img = !empty($row['profile_img']) ? $row['profile_img'] : $defaultImgPath; // Usa la imagen de la DB o la por defecto
+    $img = !empty($row['profile_img']) ? './ajax/'.$row['profile_img'] : $defaultImgPath; // Usa la imagen de la DB o la por defecto
 
     $user_handle = $row['user_handle'];
     $first_name = $row['first_name'];
@@ -40,16 +40,19 @@
 
     <!-- =============== Start Navbar =============== -->
     <nav>
-        <div class="container nav-container">
-            <div class="logo">
-                <h3>BLYM</span></h3>
-            </div>
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="search" placeholder="Search For Creators" oninput="searchUsers(this.value)">
-            </div>
+    <div class="container nav-container">
+        <div class="logo">
+            <h3>BLYM</h3>
         </div>
-    </nav>
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="search" placeholder="Search Users" oninput="searchUsers(this.value)">
+        </div>
+        <div class="profile-picture-nav" id="my-profile-picture">
+            <img src="<?php echo $img; ?>" alt="Profile Image">
+        </div>
+    </div>
+</nav>
 
     <!-- =============== Start Main Section =============== -->
     <main>
@@ -78,7 +81,7 @@
 
                      <a class="menu-item" id="btn2">
                         <span><img src="../assets/images/svg/chat-left-dots.svg" alt=""></span>
-                        <h3>Posts</h3>
+                        <h3>Support</h3>
                      </a>
 
                      <a class="menu-item" id="btn3">
@@ -97,7 +100,7 @@
             <div class="main-middle">
                 <div class="middle-container">
                     <div id="div1" class="hidden users-grid"></div>
-                    <div id="div2" class="hidden">POSTS</div>
+                    <div id="div2" class="hidden">SUPPORT</div>
                     <div id="div3" class="hidden">STATISTICS</div>
                 </div>
             </div>
@@ -113,15 +116,21 @@
                 <h1><?php echo $first_name; ?></h1>
                 <p>@<?php echo $user_handle; ?></p>
                 <div id="my-profile-picture">
-                    <img src="<?php echo $img; ?>" alt="">
+                    <img src="<?php echo $img; ?>" alt="Profile Picture" id="my-profile-picture-pop-up">
                 </div>
-                <label for="profile-upload" class="btn btn-primary btn-lg">Update Profile Picture</label>
-                <input type="file" accept="image/jpg, image/jpeg, image/png" id="profile-upload">
+                <form id="uploadForm" enctype="multipart/form-data" class="form-inline">
+                    <label for="profile-upload" class="btn btn-primary btn-lg">
+                        <i class="fa fa-upload"></i>
+                    </label>
+                    <input type="file" accept="image/jpg, image/jpeg, image/png" id="profile-upload" name="profilePic">
+                    <button type="button" class="btn btn-lg btn-primary" onclick="uploadImage()">Save Changes</button>
+                </form>
                 <button class="btn btn-lg btn-primary">Log Out</button>
             </div>
             <span class="close"><i class="fa fa-close"></i></span>
         </div>
     </div>
+
 
     
 

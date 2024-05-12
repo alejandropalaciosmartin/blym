@@ -94,21 +94,18 @@ nav {
     justify-content: space-between;
     align-items: center;
 }
-
 .logo {
     flex: 1;
     text-align: left;
 }
-
 .search-bar {
     flex: 1;
     display: flex;
-    justify-content: center; /* Centra el contenido de la barra de búsqueda */
+    justify-content: center;
     padding: var(--search-padding);
     background: var(--color-light);
     border-radius: var(--border-radius);
 }
-
 .search-bar input[type="search"] {
     background: transparent;
     width: 100%;
@@ -120,8 +117,6 @@ nav {
 .search-bar input[type="search"]::placeholder {
     color: var(--color-gray);
 }
-
-/* Añadir un contenedor adicional al final para mantener la justificación de espacio entre */
 .nav-container::after {
     content: '';
     flex: 1;
@@ -140,6 +135,9 @@ nav {
 }
 .logo span{
     color: var(--color-danger);
+}
+.nav-container .profile-picture-nav {
+    display: none;
 }
 /* ========================== End Navbar ========================== */
 
@@ -298,7 +296,7 @@ aside .menu-item:nth-last-child(1){
 }
 /* ........... End User-Card ........... */
 .no-users {
-    position: absolute; /* o absolute, dependiendo del layout de tu página */
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -317,145 +315,8 @@ aside .menu-item:nth-last-child(1){
 
 
 
-
-/* ........... Start Notification Box ........... */
-.notification-box{
-    width: 30rem;
-    left: 110%;
-    position: absolute;
-    top: 0;
-    background: var(--color-white);
-    border-radius: var(--card-border-radius);
-    padding: var(--card-padding);
-    box-shadow: var(--color-primary) 0 0 1rem;
-    z-index: 8;
-    display: none;
-}
-.notification-box::before{
-    content: '';
-    width: 1.2rem;
-    height: 1.2rem;
-    background: var(--color-white);
-    position: absolute;
-    left: -.6rem;
-    transform: rotate(45deg);
-}
-.notification-box>div{
-    display: flex;
-    gap: 1rem;
-    align-items: start;
-    margin-bottom: 1rem;
-}
-.notification-box .profile-picture{
-    width: 2.6rem;
-}
-.notification-box>div small{
-    display: block;
-}
-/* ........... End Notification Box ........... */
-
-
 /* ........... Start Main Medle ........... */
 
-/* .... Stories start .... */
-.middle-container{
-    max-width: 700px;
-    width: 90%;
-    margin: 0 auto;
-}
-.stories-wrapper{
-    display: flex;
-    gap: .5rem;
-    height: 12rem !important;
-}
-.stories-wrapper .story{
-    width: 100%;
-    height: 100%;
-    position: relative;
-    border-radius: var(--card-border-radius);
-    overflow: hidden;
-}
-.story input{
-    display: none;
-}
-.story::before{
-    height: 5rem;
-    content: '';
-    display: block;
-    position: absolute;
-    bottom: 0;
-    background: linear-gradient(transparent, var(--color-primary));
-    width: 100%;
-}
-.stories-wrapper .story:first-child{
-    background: var(--color-primary);
-}
-.story .profile-picture{
-    position: absolute;
-    top: .6rem;
-    left: 0.2rem;
-    width: 2.4rem;
-    border: 2px dashed var(--color-primary);
-    z-index: 8;
-}
-.story p{
-    text-align: center;
-    margin-top: -4rem;
-    color: var(--color-white);
-    z-index: 8;
-    position: absolute;
-    width: 100%;
-}
-.story>img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.story .add-story{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    background: var(--color-primary);
-    top: 0;
-    position: absolute;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-.story .add-story i{
-    display: block;
-    font-size: 1.4rem;
-    margin-top: -1rem;
-    color: var(--color-white);
-}
-.story .add-story p{
-    margin-bottom: -7rem;
-}
-
-/* .... Stories end .... */
-
-.main-middle .add-post{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: .4rem var(--card-padding);
-    border-radius: var(--border-radius);
-    background: var(--color-white);
-    margin-top: 1rem;
-}
-.main-middle .add-post input[type="text"]{
-    justify-self: start;
-    width: 100%;
-    padding-left: 1rem;
-    background: transparent;
-    color: var(--color-dark);
-    margin-right: 1rem;
-}
-.main-middle .add-post .profile-picture{
-    width: 2.8rem;
-}
 
 /* .... Start Feed Aria .... */
 .feeds .feed{
@@ -616,49 +477,20 @@ aside .menu-item:nth-last-child(1){
 .popup .close:hover{
     color: var(--color-primary);
 }
-/* ........... End Profile Popup ........... */
-
-/* ........... Start Add post Popup ........... */
-.add-post-popup{
-    /* display: flex; */
-    gap: 1rem;
-}
-.post-title{
+.form-inline {
     display: flex;
-    flex-direction: column;
-    gap: .5rem;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
 }
-.post-title label{
-    font-size: 1.4rem;
-    font-weight: bold;
-}
-.post-title input{
-    background: var(--color-light);
-    padding: var(--card-padding);
-    border-radius: var(--card-border-radius);
-    font-size: 1.1rem;
-}
-.post-title input:focus{
-    border: 1px solid var(--color-gray);
-}
-.post-img{
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
-}
-.post-img input[type="file"]{
+#profile-upload {
     display: none;
 }
-.post-img img{
-    width: 6rem;
-    margin: auto;
+.form-inline label{
+    width: 20%;
 }
-.post-img .feed-upload-button{
-    padding: var(--card-padding);
-    border: 2px dashed var(--color-dark);
-    font-weight: bold;
-}
-/* ........... End Add post Popup ........... */
+/* ........... End Profile Popup ........... */
 
 /* ========================== End Popup Aria ========================== */
 
@@ -684,7 +516,8 @@ aside .menu-item:nth-last-child(1){
 
 /* ========================== Start Media Queryes ========================== */
 /* ........... MAX WIDTH(1200PX) ........... */
-@media (max-width: 1200px){
+/* ........... MAX WIDTH(1200PX) ........... */
+@media (max-width: 1200px) {
     .container{
         width: 96%;
     }
@@ -695,11 +528,8 @@ aside .menu-item:nth-last-child(1){
         width: 5rem;
         z-index: 5;
         position: fixed;
-        top: 8%;
+        top: 15%;
         left: 0;
-    }
-    .main-container .main-left .profile{
-        display: none;
     }
     aside h3{
         display: none;
@@ -710,63 +540,76 @@ aside .menu-item:nth-last-child(1){
     aside .btn{
         display: none;
     }
-    
-    /* ........... MAX WIDTH(1200PX) ........... */
-    @media (max-width: 900px) {
-        aside {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%; 
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-            background: var(--color-white); 
-            border-radius: 0; 
-            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
-        }
-        aside .menu-item {
-            flex-grow: 1;
-            justify-content: center;
-            height: 100%;
-        }
-        aside .menu-item span img {
-            margin: 0;
-        }
-        aside .menu-item h3 {
-            display: none; 
-        }
-        aside .notfy-counter {
-            top: .3rem;
-            left: auto;
-            right: .5rem;
-        }
-        .btn-lg {
-            display: none;
-        }
-        aside .active{
-            background: var(--color-light);
-        }
-        aside .active:before{
-            display: none;
-        }
-        aside .menu-item:nth-child(1) {
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-        }
-        aside .menu-item:nth-last-child(2) {
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-        }
+    .main-left .profile {
+        display: none;
     }
+    .nav-container .profile-picture-nav {
+        display: flex; /* Hacemos que la imagen de perfil sea visible */
+        align-items: center;
+        justify-content: flex-end; /* Alinea el contenido a la derecha */
+    }
+    .nav-container .profile-picture-nav img {
+        width: 40px; 
+        height: 40px;
+        border-radius: 50%;
+    }
+    aside {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%; 
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        background: var(--color-white); 
+        border-radius: 0; 
+        box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    }
+    aside .menu-item {
+        flex-grow: 1;
+        justify-content: center;
+        height: 100%;
+    }
+    aside .menu-item span img {
+        margin: 0;
+    }
+    aside .menu-item h3 {
+        display: none; 
+    }
+    aside .notfy-counter {
+        top: .3rem;
+        left: auto;
+        right: .5rem;
+    }
+    aside .active{
+        background: var(--color-light);
+    }
+    aside .active:before{
+        display: none;
+    }
+    aside .menu-item:nth-child(1) {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    aside .menu-item:nth-last-child(2) {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    .profile-picture-nav{
+        margin-left: 10px;
+    }
+    .users-grid{
+        margin-bottom: 50px;
+    }
+    
     /* ........... MAX WIDTH(730PX) ........... */
     @media (max-width: 730px) {
         .search-bar {
-            flex: 3; /* Aumenta el tamaño de la barra de búsqueda ocupando también el espacio del ::after */
+            flex: 3;
         }
         .nav-container::after {
-            display: none; /* Elimina el contenedor adicional para que no ocupe espacio */
+            display: none;
         }
         .middle-container{
             max-width: 580px;
@@ -783,14 +626,18 @@ aside .menu-item:nth-last-child(1){
         .middle-container{
             max-width: 380px;
         }
+        .popup-box{
+            width: 300px;
+        }
     }
     /* ........... MAX WIDTH(420PX) ........... */
     @media (max-width: 420px) {
         .middle-container{
             max-width: 340px;
         }
+        .logo{
+            margin-right: 10px;
+        }
     }
-
-
 }
 /* ========================== End Media Queryes ========================== */
