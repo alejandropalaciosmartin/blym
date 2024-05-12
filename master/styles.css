@@ -240,6 +240,84 @@ aside .menu-item:nth-last-child(1){
 /* ........... End Main Left ........... */
 
 
+
+/* ........... Start Grid Users Div1........... */
+.users-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+@media (max-width: 600px) {
+    .users-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
+
+/* ........... Start User-Card ........... */
+.user-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+.user-details {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+.user-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    margin-right: 10px;
+}
+.user-info {
+    margin: 0;
+}
+.user-name {
+    font-size: 0.8em;
+    color: grey;
+}
+.delete-btn {
+    font-size: 20px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+.delete-btn i {
+    transition: transform 0.3s ease;
+}
+.delete-btn:hover i {
+    transform: rotate(45deg);
+}
+.delete-icon {
+    color: red;
+}
+/* ........... End User-Card ........... */
+.no-users {
+    position: absolute; /* o absolute, dependiendo del layout de tu página */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    background-color: white;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+}
+/* ........... End User-Card ........... */
+
+/* ........... End Grid Users Div1 ........... */
+
+
+
+
 /* ........... Start Notification Box ........... */
 .notification-box{
     width: 30rem;

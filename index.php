@@ -15,9 +15,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signin'])) {
 
     if ($result->num_rows > 0) { // Inicio de sesión exitoso
 
-        $_SESSION['user'] = $email; // Guarda el email en la sesión
+        $row = $result->fetch_assoc();
+        $_SESSION['user_id'] = $row['user_id'];
 
-        if($email == 'srjalean@gmail.com') {  // TODO: Considerar añadir columna de rol en la base de datos
+        if($email == 'srjalean@gmail.com') {
             header("Location: ./master/"); // Redirecciona al usuario a la página de administrador
             exit();
         } else { 
@@ -36,7 +37,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signin'])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
 
     $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -48,22 +48,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
     $resultEmail = $db->query($validEmail);
 
     $resultFirstNameOneWord = False;
-    $resultLastNameOneWord = False;
     $resultUsernameOneWord = False;
     $resultEmailValid = False;
 
-    if ($resultUsername->num_rows > 0 || $resultEmail->num_rows > 0 || preg_match('/^[a-zA-Z]+$/', $first_name) === 0 || preg_match('/^[a-zA-Z]+$/', $last_name) === 0 || preg_match('/^[a-zA-Z]+$/', $username) === 0 || preg_match('/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/', $email) === 0) {
+    if ($resultUsername->num_rows > 0 || $resultEmail->num_rows > 0 || preg_match('/^[a-zA-Z]+$/', $first_name) === 0 || preg_match('/^[a-zA-Z]+$/', $username) === 0 || preg_match('/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/', $email) === 0) {
 
         if(preg_match('/^[a-zA-Z]+$/', $first_name) === 0) {
 
             $_SESSION['error'] = "First name must contain only letters and one word";
             $resultFirstNameOneWord = True;
 
-        } elseif(preg_match('/^[a-zA-Z]+$/', $last_name) === 0) {
-
-            $_SESSION['error'] = "Last name must contain only letters and one word";
-            $resultLastNameOneWord = True;
-            
         } elseif (preg_match('/^[a-zA-Z0-9]+$/', $username) === 0 || $resultUsername->num_rows > 0 ) {
 
             if ($resultUsername->num_rows > 0) {
@@ -87,22 +81,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
         // Guardar otros campos en la sesión
         $_SESSION['form_data'] = [
             'first_name' => $resultFirstNameOneWord ? '' : ucfirst(strtolower($first_name)),
-            'last_name' => $resultLastNameOneWord ? '' : ucfirst(strtolower($last_name)),
             'email' => $resultEmail->num_rows > 0 || $resultEmailValid ? '' : strtolower($email),
             'username' => $resultUsername->num_rows > 0 || $resultUsernameOneWord ? '' : $username
         ];
 
     } else {
         $first_name = ucfirst(strtolower($first_name));
-        $last_name = ucfirst(strtolower($last_name));
 
-        $sql = "INSERT INTO users (user_handle, email_address, first_name, last_name, password) VALUES ('$username', '$email', '$first_name', '$last_name', '$password')";
+        $sql = "INSERT INTO users (user_handle, email_address, first_name, password) VALUES ('$username', '$email', '$first_name', '$password')";
 
         if ($db->query($sql) === TRUE) {
             $_SESSION['success'] = "Successful registration. Sign in now.";
             $_SESSION['form_data'] = [
                 'first_name' => '',
-                'last_name' => '',
                 'email' => '',
                 'username' => ''
             ];
@@ -134,8 +125,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signup'])) {
             <form method="POST" action="index.php">
                 <h1>Create Account</h1>
                 <input type="text" name="first_name" placeholder="First Name" required value="<?php echo isset($_SESSION['form_data']['first_name']) ? htmlspecialchars($_SESSION['form_data']['first_name']) : ''; ?>">
-                
-                <input type="text" name="last_name" placeholder="Last Name" required value="<?php echo isset($_SESSION['form_data']['last_name']) ? htmlspecialchars($_SESSION['form_data']['last_name']) : ''; ?>">
                 
                 <input type="text" name="username" placeholder="User Name" required value="<?php echo isset($_SESSION['form_data']['username']) ? htmlspecialchars($_SESSION['form_data']['username']) : ''; ?>">
                 

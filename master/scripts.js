@@ -1,3 +1,9 @@
+// --------------------SEARCH USERS AUTOMATICAMENTE--------------------
+document.addEventListener('DOMContentLoaded', function() {
+  searchUsers(''); // Esto cargará todos los usuarios inicialmente
+});
+
+
 // --------------------WINDOW SCROLL--------------------
 // -ESTO ES PARA CERRAR EL POPUP DE PERFIL CUANDO SE HACE SCROLL
 window.addEventListener('scroll', () => {
@@ -46,16 +52,63 @@ document.getElementById("btn3").addEventListener("click", function() {
 
 function setActiveButton(btnId) {
   var buttons = document.querySelectorAll("a");
+  var searchInput = document.querySelector("input[type='search']");
+
   buttons.forEach(function(button) {
     button.classList.remove("active");
   });
   document.getElementById(btnId).classList.add("active");
+
+  // Opcional: vaciar el input de búsqueda si piensas que podría ser necesario en algunos casos
+  searchInput.value = ""; // Asegura que el input se vacíe cada vez que se cambie de vista
 }
 
 function showDiv(divId) {
   var divs = document.querySelectorAll("div[id^='div']");
+  var searchInput = document.querySelector("input[type='search']");
+
   divs.forEach(function(div) {
-    div.classList.add("hidden");
+      div.classList.add("hidden");
   });
   document.getElementById(divId).classList.remove("hidden");
+
+  // Vaciar y controlar el estado del input de búsqueda
+  searchInput.value = ""; // Vacía el input al cambiar de vista
+
+  if (divId === "div3") {
+      searchInput.disabled = true; // Deshabilita el input en la vista de Stats
+  } else {
+      searchInput.disabled = false; // Habilita el input en otras vistas
+      searchUsers(''); // Realiza una búsqueda con el input vacío para actualizar la vista
+  }
+}
+
+
+// --------------------SEARCH USERS--------------------
+function searchUsers(query) {
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+          document.getElementById('div1').innerHTML = xhr.responseText;
+      }
+  };
+
+  xhr.open('GET', './ajax/searchUsers.php?q=' + encodeURIComponent(query), true);
+  xhr.send();
+}
+
+// --------------------DELETE USER--------------------
+function deleteUser(userId) {
+  if (confirm('Are you sure you want to delete this user?')) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', './ajax/deleteUser.php', true);
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      xhr.onload = function () {
+          if (this.status == 200) {
+              console.log('Response:', this.responseText);
+              location.reload(); // Recargar la página para actualizar la lista de usuarios
+          }
+      };
+      xhr.send('id=' + userId);
+  }
 }
