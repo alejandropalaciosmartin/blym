@@ -125,7 +125,7 @@
                     <input type="file" accept="image/jpg, image/jpeg, image/png" id="profile-upload" name="profilePic">
                     <button type="button" class="btn btn-lg btn-primary" onclick="uploadImage()">Save Changes</button>
                 </form>
-                <button class="btn btn-lg btn-primary">Log Out</button>
+                <button class="btn btn-lg btn-primary" onclick="window.location.href='logout.php'">Log Out</button>
             </div>
             <span class="close"><i class="fa fa-close"></i></span>
         </div>
