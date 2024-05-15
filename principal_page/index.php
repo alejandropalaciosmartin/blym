@@ -121,8 +121,7 @@
 
                      <a class="menu-item">
                         <span><img src="../assets/images/svg/chat-left-dots.svg" alt=""></span> 
-                        <small class="notfy-counter">3+</small>
-                        <h3>Message</h3>
+                        <h3>Support</h3>
                      </a>
 
                      <a class="menu-item">

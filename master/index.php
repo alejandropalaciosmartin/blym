@@ -14,6 +14,13 @@
     $user_handle = $row['user_handle'];
     $first_name = $row['first_name'];
 
+    // Consulta para obtener los mensajes de soporte junto con la información del usuario
+    $sql = "SELECT support.support_id, support.message, users.user_handle, users.profile_img
+    FROM support
+    INNER JOIN users ON support.user_id = users.user_id
+    ORDER BY support.created_at DESC";
+    $result = $db->query($sql);
+
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +34,7 @@
     <link rel="icon" href="../assets/images/svg/b.svg" type="image/x-icon">
 
     <!-- =============== CUSTOM CSS LINK =============== -->
-    <link rel="stylesheet" href="./styles.css?v=2">
+    <link rel="stylesheet" href="./styles.css">
 
     <!-- =============== Font Awesome Link =============== -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -100,7 +107,26 @@
             <div class="main-middle">
                 <div class="middle-container">
                     <div id="div1" class="hidden users-grid"></div>
-                    <div id="div2" class="hidden">SUPPORT</div>
+                    <div id="div2" class="hidden">
+                        <?php
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                $userImg = !empty($row['profile_img']) ? './ajax/' . $row['profile_img'] : $defaultImgPath;
+                                ?>
+                                <div class="support-message">
+                                    <img src="<?php echo $userImg; ?>" alt="Profile Image" class="profile-image">
+                                    <p class="user-handle">@<?php echo $row['user_handle']; ?></p>
+                                    <p class="message-text"><?php echo $row['message']; ?></p>
+                                    <button class="delete-btn2" onclick="deleteMessage(<?php echo $row['support_id']; ?>)">Delete</button>
+                                </div>
+                                <?php
+                            }
+                        } else {
+                            echo "<p>No hay mensajes de soporte para mostrar.</p>";
+                        }
+                        ?>
+                    </div>
+
                     <div id="div3" class="hidden">STATISTICS</div>
                 </div>
             </div>
@@ -125,7 +151,7 @@
                     <input type="file" accept="image/jpg, image/jpeg, image/png" id="profile-upload" name="profilePic">
                     <button type="button" class="btn btn-lg btn-primary" onclick="uploadImage()">Save Changes</button>
                 </form>
-                <button class="btn btn-lg btn-primary" onclick="window.location.href='logout.php'">Log Out</button>
+                <button class="btn btn-lg btn-primary">Log Out</button>
             </div>
             <span class="close"><i class="fa fa-close"></i></span>
         </div>
