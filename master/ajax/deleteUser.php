@@ -14,6 +14,9 @@ if (isset($_POST['id'])) {
     $sql = "DELETE FROM stories WHERE user_id = $id";
     $result = $db->query($sql);
 
+    $sql = "DELETE FROM support WHERE user_id = $id";
+    $result = $db->query($sql);
+
     $sql = "DELETE FROM users WHERE user_id = $id";
     $result = $db->query($sql);
 }

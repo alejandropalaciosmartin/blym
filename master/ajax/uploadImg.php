@@ -11,15 +11,15 @@ if (isset($_FILES['profilePic'])) {
     if ($fileError === 0) {
         // Preparar el nombre del archivo nuevo
         $newFileName = $userId . "-" . $fileName;
-        $fileDestination = 'uploads/' . $newFileName;
+        $fileDestination = '../../assets/usersImg/' . $newFileName;
 
         // Crear carpeta si no existe
-        if (!file_exists('uploads')) {
-            mkdir('uploads', 0777, true);
+        if (!file_exists('../../assets/usersImg')) {
+            mkdir('../../assets/usersImg', 0777, true);
         }
 
         // Eliminar el archivo anterior si existe
-        foreach (glob("uploads/{$userId}-*") as $oldFile) {
+        foreach (glob("../../assets/usersImg/{$userId}-*") as $oldFile) {
             if (is_file($oldFile)) {
                 unlink($oldFile); // Elimina el archivo
             }
@@ -27,10 +27,9 @@ if (isset($_FILES['profilePic'])) {
 
         // Mover el archivo subido a la carpeta de destino
         if (move_uploaded_file($fileTmpName, $fileDestination)) {
-            $filePath = $fileDestination;
 
             // Actualizar la base de datos con la nueva ruta de imagen
-            $sql = "UPDATE users SET profile_img = '$filePath' WHERE user_id = $userId";
+            $sql = "UPDATE users SET profile_img = '$newFileName' WHERE user_id = $userId";
             $result = $db->query($sql);
             if ($result) {
                 echo "Imagen actualizada correctamente.";

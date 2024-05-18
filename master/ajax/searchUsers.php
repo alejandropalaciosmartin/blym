@@ -18,7 +18,7 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $handle = htmlspecialchars($row['user_handle']);
         $name = htmlspecialchars($row['first_name']);
-        $imgPath = !empty($row['profile_img']) ? './ajax/'.$row['profile_img'] : $defaultImgPath;
+        $imgPath = !empty($row['profile_img']) ? '../assets/usersImg/'.$row['profile_img'] : $defaultImgPath;
         
         echo "<div class='user-card'>
                 <div class='user-details'>

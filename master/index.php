@@ -9,18 +9,62 @@
     $result = $db->query($sql);
 
     $row = $result->fetch_assoc();
-    $img = !empty($row['profile_img']) ? './ajax/'.$row['profile_img'] : $defaultImgPath; // Usa la imagen de la DB o la por defecto
+    $img = !empty($row['profile_img']) ? '../assets/usersImg/'.$row['profile_img'] : $defaultImgPath; // Usa la imagen de la DB o la por defecto
 
     $user_handle = $row['user_handle'];
     $first_name = $row['first_name'];
 
     // Consulta para obtener los mensajes de soporte junto con la información del usuario
-    $sql = "SELECT support.support_id, support.message, users.user_handle, users.profile_img
+    $sql = "SELECT support.support_id, support.message, support.created_at, users.user_handle, users.profile_img
     FROM support
     INNER JOIN users ON support.user_id = users.user_id
     ORDER BY support.created_at DESC";
     $result = $db->query($sql);
 
+
+    function time_elapsed_string($datetime, $full = false) {
+        $now = new DateTime();
+        $ago = new DateTime($datetime);
+        $diff = $now->diff($ago);
+    
+        // Calculamos las semanas y ajustamos los días
+        $weeks = floor($diff->d / 7);
+        $remainingDays = $diff->d % 7; // Días restantes después de extraer las semanas
+    
+        $string = array(
+            'y' => 'año',
+            'm' => 'mes',
+            'w' => 'semana',
+            'd' => 'día',
+            'h' => 'hora',
+            'i' => 'minuto',
+            's' => 'segundo',
+        );
+    
+        // Asignamos los valores a las unidades de tiempo
+        $diffValues = array(
+            'y' => $diff->y,
+            'm' => $diff->m,
+            'w' => $weeks,  // Usamos la variable local para semanas
+            'd' => $remainingDays,
+            'h' => $diff->h,
+            'i' => $diff->i,
+            's' => $diff->s
+        );
+    
+        foreach ($string as $k => &$v) {
+            if ($diffValues[$k]) {
+                $v = $diffValues[$k] . ' ' . $v . ($diffValues[$k] > 1 ? 's' : '');
+            } else {
+                unset($string[$k]);
+            }
+        }
+    
+        if (!$full) $string = array_slice($string, 0, 1);
+        return $string ? 'hace ' . implode(', ', $string) : 'justo ahora';
+    }
+    
+    
 ?>
 
 <!DOCTYPE html>
@@ -34,7 +78,7 @@
     <link rel="icon" href="../assets/images/svg/b.svg" type="image/x-icon">
 
     <!-- =============== CUSTOM CSS LINK =============== -->
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./styles.css?V=2">
 
     <!-- =============== Font Awesome Link =============== -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -51,10 +95,15 @@
         <div class="logo">
             <h3>BLYM</h3>
         </div>
-        <div class="search-bar">
+        <div class="search-bar" id="search-bar-div1">
             <i class="fas fa-search"></i>
             <input type="search" placeholder="Search Users" oninput="searchUsers(this.value)">
         </div>
+        <div class="search-bar hidden" id="search-bar-div2">
+            <i class="fas fa-search"></i>
+            <input type="search" placeholder="Search Posts" oninput="searchPosts(this.value)">
+        </div>
+
         <div class="profile-picture-nav" id="my-profile-picture">
             <img src="<?php echo $img; ?>" alt="Profile Image">
         </div>
@@ -111,13 +160,17 @@
                         <?php
                         if ($result->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {
-                                $userImg = !empty($row['profile_img']) ? './ajax/' . $row['profile_img'] : $defaultImgPath;
+                                $userImg = !empty($row['profile_img']) ? '../assets/usersImg/' . $row['profile_img'] : $defaultImgPath;
+                                $timeAgo = time_elapsed_string($row['created_at']);
                                 ?>
                                 <div class="support-message">
                                     <img src="<?php echo $userImg; ?>" alt="Profile Image" class="profile-image">
                                     <p class="user-handle">@<?php echo $row['user_handle']; ?></p>
                                     <p class="message-text"><?php echo $row['message']; ?></p>
-                                    <button class="delete-btn2" onclick="deleteMessage(<?php echo $row['support_id']; ?>)">Delete</button>
+                                    <p class="time-ago"><?php echo $timeAgo; ?></p>
+                                    <button class='delete-btn' onclick="deleteMessage(<?php echo $row['support_id']; ?>)">
+                                        <i class='fas fa-trash delete-icon'></i>
+                                    </button>
                                 </div>
                                 <?php
                             }
@@ -151,7 +204,7 @@
                     <input type="file" accept="image/jpg, image/jpeg, image/png" id="profile-upload" name="profilePic">
                     <button type="button" class="btn btn-lg btn-primary" onclick="uploadImage()">Save Changes</button>
                 </form>
-                <button class="btn btn-lg btn-primary">Log Out</button>
+                <button class="btn btn-lg btn-primary" onclick="window.location.href='logout.php'">Log Out</button>
             </div>
             <span class="close"><i class="fa fa-close"></i></span>
         </div>
@@ -166,6 +219,6 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <!-- =============== Custom JS Link =============== -->
-    <script src="./scripts.js"></script>
+    <script src="./scripts.js?v=2"></script>
 </body>
 </html>

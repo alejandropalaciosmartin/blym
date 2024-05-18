@@ -271,6 +271,9 @@ aside .menu-item:nth-last-child(1){
     height: 50px;
     border-radius: 25px;
     margin-right: 10px;
+    object-fit: cover;
+    object-position: center;
+    overflow: hidden;
 }
 .user-info {
     margin: 0;
@@ -346,44 +349,50 @@ aside .menu-item:nth-last-child(1){
 /* ........... Start Support Div2 ........... */
 #div2 {
     flex-direction: column;
-    align-items: stretch; /* Asegura que cada mensaje se estire para ocupar todo el ancho del contenedor */
+    align-items: stretch;
+    padding: 20px;
 }
 
 .support-message {
     display: flex;
-    align-items: center; /* Alinea verticalmente los elementos del mensaje */
+    align-items: center;
     padding: 10px;
     margin-bottom: 5px;
-    background-color: #f0f0f0; /* Fondo ligero para cada mensaje */
-    border-radius: 8px; /* Bordes redondeados */
+    background-color: #f0f0f0;
+    border-radius: 8px;
 }
 
 .profile-image {
     width: 40px;
     height: 40px;
-    border-radius: 20px; /* Hace la imagen redonda */
-    margin-right: 10px; /* Espacio entre la imagen y el nombre */
+    border-radius: 20px;
+    margin-right: 10px;
+}  
+
+.user-handle, .message-text, .time-ago {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .user-handle {
-    margin-right: 20px; /* Espacio entre el nombre y el mensaje */
+    margin-right: 20px;
     font-weight: bold;
-    color: #333; /* Color oscuro para el texto del nombre de usuario */
+    color: #333;
 }
 
 .message-text {
-    flex-grow: 1; /* Permite que el mensaje ocupe todo el espacio disponible */
-    margin-right: 20px; /* Espacio entre el mensaje y el botón */
+    flex-grow: 1;
+    margin-right: 20px;
+    margin-left: 20px;
+    width:10%;
 }
 
-.delete-btn2 {
-    background-color: #e3342f; /* Rojo para el botón eliminar */
-    color: white;
-    border: none;
-    padding: 5px 15px;
-    border-radius: 5px; /* Bordes redondeados para el botón */
-    cursor: pointer;
+.time-ago {
+    color: #888;
+    font-style: italic;
+    margin-right: 10px;
 }
+
 
 /* ........... End Support Div2 ........... */
 
@@ -687,6 +696,22 @@ aside .menu-item:nth-last-child(1){
         .middle-container{
             max-width: 580px;
         }
+        .support-message {
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            text-align: center;
+        }
+    
+        .user-handle, .message-text, .time-ago {
+            margin-right: 0;
+        }
+    
+        .message-text {
+            white-space: normal;
+            width: 100%;
+            margin-left: 0;
+        }
     }
     /* ........... MAX WIDTH(620PX) ........... */
     @media (max-width: 620px) {
@@ -710,6 +735,22 @@ aside .menu-item:nth-last-child(1){
         }
         .logo{
             margin-right: 10px;
+        }
+        #div2 {
+            padding: 10px;
+        }
+    
+        .support-message {
+            padding: 8px;
+        }
+    
+        .profile-image {
+            width: 30px;
+            height: 30px;
+        }
+    
+        .delete-btn {
+            padding: 3px 10px; /* Reducir el tamaño del botón en pantallas pequeñas */
         }
     }
 }
