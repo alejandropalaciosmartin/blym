@@ -71,8 +71,6 @@ function showDiv(divId) {
   var divs = document.querySelectorAll("div[id^='div']");
   var searchBars = document.querySelectorAll('.search-bar');
 
-  var searchInput = document.querySelector("input[type='search']");
-
   divs.forEach(function(div) {
     div.classList.add("hidden");
   });
@@ -80,19 +78,29 @@ function showDiv(divId) {
     searchBar.classList.add('hidden');
   });
 
-  document.getElementById(divId).classList.remove("hidden");
-  document.getElementById(`search-bar-${divId}`).classList.remove("hidden");
+  var selectedDiv = document.getElementById(divId);
+  if (selectedDiv) {
+    selectedDiv.classList.remove("hidden");
+  }
 
-  // Vaciar y controlar el estado del input de búsqueda
-  searchInput.value = ""; // Vacía el input al cambiar de vista
+  var searchBar = document.querySelector(`#search-bar-${divId}`);
+  if (searchBar) {
+    searchBar.classList.remove("hidden");
+    document.querySelector(`#search-bar-${divId} input[type="search"]`).value = "";  
+  }
 
-  if (divId === "div3") {
-    searchInput.disabled = true; // Deshabilita el input en la vista de Stats
+  if (divId === "div1") {
+    searchUsers('');
+  } else if (divId === "div2") {
+    searchPosts('');
   } else {
-    searchInput.disabled = false; // Habilita el input en otras vistas
-    searchUsers(''); // Realiza una búsqueda con el input vacío para actualizar la vista
+    // En el caso de que no sea div1 ni div2, maneja otros casos, como deshabilitar inputs, etc.
+    if (searchBar) {
+      searchBar.disabled = true;
+    }
   }
 }
+
 
 function saveState(btnId, divId) {
   localStorage.setItem("activeButtonId", btnId);
@@ -113,6 +121,20 @@ function searchUsers(query) {
   xhr.open('GET', './ajax/searchUsers.php?q=' + encodeURIComponent(query), true);
   xhr.send();
 }
+
+// --------------------SEARCH POSTS--------------------
+function searchPosts(query) {
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+          document.getElementById('div2').innerHTML = xhr.responseText;
+      }
+  };
+
+  xhr.open('GET', './ajax/searchPosts.php?q=' + encodeURIComponent(query), true);
+  xhr.send();
+}
+
 
 
 // --------------------DELETE USER--------------------
