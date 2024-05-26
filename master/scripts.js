@@ -36,7 +36,6 @@ document.querySelectorAll('#my-profile-picture').forEach( AllProfile => {
 document.querySelectorAll('.close').forEach( AllCloser => {
     AllCloser.addEventListener('click', () => {
         document.querySelector('.profile-popup').style.display = 'none'
-        document.querySelector('.add-post-popup').style.display = 'none'
     })
 })
 
@@ -145,7 +144,9 @@ function searchPosts(query) {
 
 
 // --------------------DELETE USER--------------------
-function deleteUser(userId) {
+function deleteUser(event, userId) {
+  event.stopPropagation();
+
   if (confirm('Are you sure you want to delete this user?')) {
       var xhr = new XMLHttpRequest();
       xhr.open('POST', './ajax/deleteUser.php', true);
@@ -157,6 +158,23 @@ function deleteUser(userId) {
           }
       };
       xhr.send('id=' + userId);
+  }
+}
+
+function deleteMessage(supportId) {
+  event.stopPropagation();
+
+  if (confirm('Are you sure you want to delete this message?')) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', './ajax/deleteSupportMessage.php', true);
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      xhr.onload = function () {
+          if (this.status == 200) {
+              console.log('Response:', this.responseText);
+              location.reload();
+          }
+      };
+      xhr.send('id=' + supportId);
   }
 }
 
@@ -197,30 +215,39 @@ function uploadImage() {
 
 
 function showPopup(userId) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', './ajax/get_user_details.php', true);
-  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  xhr.onload = function() {
-      if (xhr.status === 200) {
-          var response = JSON.parse(xhr.responseText);
-          if (response.error) {
-              alert(response.error);
-          } else {
-              document.getElementById('popup-info').innerHTML = `
-                  <div class='user-details'>
-                      <img src='${response.imgPath}' alt='' class='user-image'>
-                      <div class='user-info'>
-                          <h4 class='user-handle'>${response.handle}</h4>
-                          <p class='user-name'>${response.name}</p>
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', './ajax/get_user_details.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            if (response.error) {
+                alert(response.error);
+            } else {
+                let active = response.active == 1 ? 'active' : 'inactive';
+
+
+                document.getElementById('popup-info').innerHTML = `
+                    <div class='user-details-popup'>
+                      <div class='user-popup-img ${active}'>
+                        <img src='${response.imgPath}' alt='' class='user-image-popup'>
                       </div>
-                  </div>`;
-              document.getElementById('user-popup').style.display = 'block';
-          }
-      } else {
-          alert('Error fetching user details');
-      }
-  };
-  xhr.send('user_id=' + userId);
+                      <div class='user-info-popup'>
+                          <h4 class='user-name'>${response.name}</h4>
+                          <p class='user-handle-popup'>@${response.handle}</p>
+                          <p class='user-followers'>Followers: ${response.followerCount}</p>
+                          <p class='user-following'>Following: ${response.followingCount}</p>
+                          <p class='user-posts'>Posts: ${response.postCount}</p>
+                          <p class='user-created'>Joined: ${new Date(response.createdAt).toLocaleDateString()}</p>
+                      </div>
+                    </div>`;
+                document.getElementById('user-popup').style.display = 'flex';
+            }
+        } else {
+            alert('Error fetching user details');
+        }
+    };
+    xhr.send('user_id=' + userId);
 }
 
 function closePopup() {

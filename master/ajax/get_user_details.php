@@ -3,9 +3,15 @@ include '../../assets/reusable/bd.php';
 
 if (isset($_POST['user_id'])) {
     $userId = $_POST['user_id'];
-    $sql = "SELECT * FROM users WHERE user_id = ?";
+
+    // Consulta para obtener los detalles del usuario, seguidores y posts
+    $sql = "SELECT u.user_handle, u.first_name, u.profile_img, u.follower_count, u.created_at, u.active, 
+                   (SELECT COUNT(*) FROM followers WHERE follower_id = ?) as following_count, 
+                   (SELECT COUNT(*) FROM posts WHERE user_id = ?) as post_count
+            FROM users u
+            WHERE u.user_id = ?";
     $stmt = $db->prepare($sql);
-    $stmt->bind_param("i", $userId);
+    $stmt->bind_param("iii", $userId, $userId, $userId);
     $stmt->execute();
     $result = $stmt->get_result();
     
@@ -14,7 +20,12 @@ if (isset($_POST['user_id'])) {
         $response = [
             'handle' => htmlspecialchars($row['user_handle']),
             'name' => htmlspecialchars($row['first_name']),
-            'imgPath' => !empty($row['profile_img']) ? '../assets/usersImg/'.$row['profile_img'] : '../assets/images/img/user.jpg'
+            'imgPath' => !empty($row['profile_img']) ? '../assets/usersImg/'.$row['profile_img'] : '../assets/images/img/user.jpg',
+            'followerCount' => $row['follower_count'],
+            'followingCount' => $row['following_count'],
+            'postCount' => $row['post_count'],
+            'createdAt' => $row['created_at'],
+            'active' => $row['active'],
         ];
         echo json_encode($response);
     } else {

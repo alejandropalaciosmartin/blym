@@ -87,12 +87,12 @@ nav {
     z-index: 10;
     padding: .7rem 0;
     background: var(--color-white);
+    height: 59px;
 }
 
 .nav-container {
     display: flex;
     justify-content: space-between;
-    align-items: center;
 }
 .logo {
     flex: 1;
@@ -259,13 +259,15 @@ aside .menu-item:nth-last-child(1){
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 2px solid #bab7b7;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 10px;
 }
 .user-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transform: scale(1.02);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 15px 30px rgba(0, 0, 0, 0.2); 
+    border-radius: 10px;
 }
 .user-card:hover::after {
     content: '';
@@ -277,20 +279,42 @@ aside .menu-item:nth-last-child(1){
     background: rgba(0, 0, 0, 0.1);
     pointer-events: none;
     transition: background 0.2s;
+    border-radius: 10px;
 }
 .user-details {
     flex-grow: 1;
     display: flex;
     align-items: center;
 }
-.user-image {
+.user-image-container {
+    position: relative;
     width: 50px;
     height: 50px;
-    border-radius: 25px;
     margin-right: 10px;
+}
+.user-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
     object-fit: cover;
     object-position: center;
-    overflow: hidden;
+}
+.user-image-container.active::after,
+.user-image-container.inactive::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    right: -1px; 
+    width: 15px;
+    height: 15px;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+.user-image-container.active::after {
+    background-color: green;
+}
+.user-image-container.inactive::after {
+    background-color: red;
 }
 .user-info {
     margin: 0;
@@ -315,6 +339,7 @@ aside .menu-item:nth-last-child(1){
     color: red;
 }
 /* ........... End User-Card ........... */
+
 .no-users {
     position: absolute;
     top: 50%;
@@ -332,24 +357,125 @@ aside .menu-item:nth-last-child(1){
 /* ........... End User-Card ........... */
 
 
+/* ........... Start PopUp User Cards for Div1 ........... */
+.user-popup {
+    display: none; 
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+
+    justify-content: center; 
+    align-items: center; 
+}
+.popup-content {
+    background-color: #fff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    margin: auto;
+}
+.user-popup .close{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.6rem;
+    color: #333;
+    cursor: pointer;
+    transition: color 300ms ease;
+}
+.user-popup .close:hover {
+    color: #e74c3c;
+}
+.user-details-popup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.user-popup-img {
+    position: relative;
+    display: inline-block;
+}
+.user-popup-img.active::after,
+.user-popup-img.inactive::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+.user-popup-img.active::after {
+    background-color: green;
+}
+
+.user-popup-img.inactive::after {
+    background-color: red;
+}
+.user-image-popup {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
+.user-info-popup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.user-info-popup h4 {
+    font-size: 1.5rem;
+    color: #333;
+}
+.user-info-popup p {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #555;
+}
+.user-handle-popup {
+    margin: 0 0 25px 0  !important;
+    font-size: 0.9rem  !important;
+    color: #000000 !important;
+}
+.user-followers, .user-following, .user-posts, .user-created {
+    font-size: 1rem;
+    color: #555;
+}
+.user-followers span, .user-following span, .user-posts span, .user-created span {
+    font-weight: bold;
+    color: #333;
+}
+/* ........... Start PopUp User Cards for Div1 ........... */
+
+
+
 /* ........... Start Support Div2 ........... */
 .support-message {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
 }
-
 .profile-image {
     width: 50px;
     height: 50px;
     border-radius: 25px;
     margin-right: 10px;
 }
-
 .message-content {
     flex-grow: 1;
 }
-
 .delete-btn2 {
     background-color: red;
     color: white;
@@ -368,7 +494,6 @@ aside .menu-item:nth-last-child(1){
     padding: 0 20px 0 20px;
     margin-bottom: 55px;
 }
-
 .support-message {
     display: flex;
     align-items: center;
@@ -377,40 +502,34 @@ aside .menu-item:nth-last-child(1){
     background-color: #f0f0f0;
     border-radius: 8px;
 }
-
 .profile-image {
     width: 40px;
     height: 40px;
     border-radius: 20px;
     margin-right: 10px;
 }  
-
 .user-handle, .message-text, .time-ago {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
 .user-handle {
     margin-right: 20px;
     font-weight: bold;
     color: #333;
 }
-
 .message-text {
     flex-grow: 1;
     margin-right: 20px;
     margin-left: 20px;
     width:10%;
 }
-
 .time-ago {
     color: #888;
     font-style: italic;
     margin-right: 10px;
 }
-
-
 /* ........... End Support Div2 ........... */
+
 
 /* ........... Start Support Div3 ........... */
 #div3 {
@@ -427,7 +546,7 @@ aside .menu-item:nth-last-child(1){
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    flex: 1 1 calc(50% - 40px); /* two items per row, with gap accounted for */
+    flex: 1 1 calc(50% - 40px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -479,17 +598,20 @@ aside .menu-item:nth-last-child(1){
 .active-users::after {
     content: '';
     position: absolute;
-    bottom: -5px; /* Adjust position as needed */
-    right: -5px; /* Adjust position as needed */
+    bottom: -5px;
+    right: -5px; 
     width: 15px;
     height: 15px;
     background-color: green;
-    border: 2px solid white; /* Add a white border to create separation */
+    border: 2px solid white;
     border-radius: 50%;
 }
-/* ........... Start Support Div3 ........... */
+/* ........... End Support Div3 ........... */
 
-/* ........... Start Main Medle ........... */
+
+/* ........... End Main Medle ........... */
+
+
 
 
 /* .... Start Feed Aria .... */
@@ -718,9 +840,9 @@ aside .menu-item:nth-last-child(1){
         display: none;
     }
     .nav-container .profile-picture-nav {
-        display: flex; /* Hacemos que la imagen de perfil sea visible */
+        display: flex;
         align-items: center;
-        justify-content: flex-end; /* Alinea el contenido a la derecha */
+        justify-content: flex-end;
     }
     .nav-container .profile-picture-nav img {
         width: 40px; 
@@ -829,9 +951,6 @@ aside .menu-item:nth-last-child(1){
     }
     /* ........... MAX WIDTH(520PX) ........... */
     @media (max-width: 520px) {
-        .middle-container{
-            max-width: 380px;
-        }
         .popup-box{
             width: 300px;
         }
@@ -855,7 +974,7 @@ aside .menu-item:nth-last-child(1){
         }
     
         .delete-btn {
-            padding: 3px 10px; /* Reducir el tamaño del botón en pantallas pequeñas */
+            padding: 3px 10px;
         }
         .stat-icon {
             width: 30px;
@@ -870,43 +989,3 @@ aside .menu-item:nth-last-child(1){
     }
 }
 /* ========================== End Media Queryes ========================== */
-
-
-
-
-
-
-
-.user-popup {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.popup-content {
-    background-color: #fff;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
-    box-shadow: 0px 0px 10px 0px #000;
-    position: relative;
-}
-.user-popup .close{
-    font-size: 1.6rem;
-    color: var(--color-light);
-    margin-left: .5rem;
-    margin-top: -.5rem;
-    cursor: pointer;
-    transition: 300ms ease all;
-}
-.user-popup .close:hover{
-    color: var(--color-primary);
-}
