@@ -13,14 +13,23 @@ $sql = empty($query) ?
 $result = $db->query($sql);
 
 
+echo "<div id='user-popup' class='user-popup'>
+        <div class='popup-content'>
+            <span class='close' onclick='closePopup()'><i class='fa fa-close'></i></span>
+            <div id='popup-info'></div>
+        </div>
+      </div>";
+
+      
 // Comprueba si hay resultados y los muestra
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $handle = htmlspecialchars($row['user_handle']);
         $name = htmlspecialchars($row['first_name']);
         $imgPath = !empty($row['profile_img']) ? '../assets/usersImg/'.$row['profile_img'] : $defaultImgPath;
+        $userId = htmlspecialchars($row['user_id']);
         
-        echo "<div class='user-card'>
+        echo "<div class='user-card' onclick='showPopup($userId)'>
                 <div class='user-details'>
                     <img src='$imgPath' alt='' class='user-image'>
                     <div class='user-info'>

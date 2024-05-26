@@ -17,6 +17,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signin'])) {
 
         $row = $result->fetch_assoc();
         $_SESSION['user_id'] = $row['user_id'];
+        
+        $user_id = $row['user_id'];
+        $update_active_sql = "UPDATE users SET active = 1 WHERE user_id = '$user_id'";
+        $db->query($update_active_sql);
 
         if($email == 'srjalean@gmail.com') {
             header("Location: ./master/"); // Redirecciona al usuario a la página de administrador

@@ -65,6 +65,21 @@
     }
     
     
+    // -- DATOS DIV 3
+    $sql_total_users = "SELECT COUNT(*) as total_users FROM users";
+    $sql_total_posts = "SELECT COUNT(*) as total_posts FROM posts";
+    $sql_active_users = "SELECT COUNT(*) as active_users FROM users WHERE active = 1";
+    $sql_total_support_messages = "SELECT COUNT(*) as total_support_messages FROM support";
+
+    $result_total_users = $db->query($sql_total_users);
+    $result_total_posts = $db->query($sql_total_posts);
+    $result_active_users = $db->query($sql_active_users);
+    $result_total_support_messages = $db->query($sql_total_support_messages);
+
+    $total_users = $result_total_users->fetch_assoc()['total_users'];
+    $total_posts = $result_total_posts->fetch_assoc()['total_posts'];
+    $active_users = $result_active_users->fetch_assoc()['active_users'];
+    $total_support_messages = $result_total_support_messages->fetch_assoc()['total_support_messages'];
 ?>
 
 <!DOCTYPE html>
@@ -78,7 +93,7 @@
     <link rel="icon" href="../assets/images/svg/b.svg" type="image/x-icon">
 
     <!-- =============== CUSTOM CSS LINK =============== -->
-    <link rel="stylesheet" href="./styles.css?V=2">
+    <link rel="stylesheet" href="./styles.css">
 
     <!-- =============== Font Awesome Link =============== -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -143,10 +158,6 @@
                      <a class="menu-item" id="btn3">
                         <span><img src="../assets/images/svg/graph-up-arrow.svg" alt=""></span> <h3>Stats</h3>
                      </a>
-
-                     <a class="menu-item">
-                        <span><img src="../assets/images/svg/gear.svg" alt=""></span> <h3>Settings</h3>
-                     </a>
                 
                 </aside>
             </div>
@@ -180,7 +191,38 @@
                         ?>
                     </div>
 
-                    <div id="div3" class="hidden">STATISTICS</div>
+                    <div id="div3" class="hidden">
+                        <div class="stats-container">
+                            <div class="stat-box">
+                                <div class="stat-title">Total de usuarios</div>
+                                <div class="stat-content">
+                                    <div class="stat-icon total-users"></div>
+                                    <p class="stat-value"><?php echo $total_users; ?></p>
+                                </div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">Total de posts</div>
+                                <div class="stat-content">
+                                    <div class="stat-icon total-posts"></div>
+                                    <p class="stat-value"><?php echo $total_posts; ?></p>
+                                </div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">Total de mensajes de soporte</div>
+                                <div class="stat-content">
+                                    <div class="stat-icon support-messages"></div>
+                                    <p class="stat-value"><?php echo $total_support_messages; ?></p>
+                                </div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-title">Usuarios activos</div>
+                                <div class="stat-content">
+                                    <div class="stat-icon active-users"></div>
+                                    <p class="stat-value"><?php echo $active_users; ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -209,9 +251,6 @@
             <span class="close"><i class="fa fa-close"></i></span>
         </div>
     </div>
-
-
-    
 
 
 

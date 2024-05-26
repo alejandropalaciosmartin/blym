@@ -7,6 +7,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   setActiveButton(activeButtonId);
   showDiv(activeDivId);
+
+  const statBoxes = document.querySelectorAll('.stat-box');
+    statBoxes.forEach(function(box) {
+        box.addEventListener('click', function() {
+            location.reload();
+        });
+    });
 });
 
 
@@ -184,4 +191,38 @@ function uploadImage() {
       console.error('Error:', error);
       alert("Failed to upload image.");
   });
+}
+
+
+
+
+function showPopup(userId) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', './ajax/get_user_details.php', true);
+  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  xhr.onload = function() {
+      if (xhr.status === 200) {
+          var response = JSON.parse(xhr.responseText);
+          if (response.error) {
+              alert(response.error);
+          } else {
+              document.getElementById('popup-info').innerHTML = `
+                  <div class='user-details'>
+                      <img src='${response.imgPath}' alt='' class='user-image'>
+                      <div class='user-info'>
+                          <h4 class='user-handle'>${response.handle}</h4>
+                          <p class='user-name'>${response.name}</p>
+                      </div>
+                  </div>`;
+              document.getElementById('user-popup').style.display = 'block';
+          }
+      } else {
+          alert('Error fetching user details');
+      }
+  };
+  xhr.send('user_id=' + userId);
+}
+
+function closePopup() {
+  document.getElementById('user-popup').style.display = 'none';
 }
