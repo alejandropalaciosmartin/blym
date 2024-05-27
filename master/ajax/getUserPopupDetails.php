@@ -1,15 +1,15 @@
 <?php
 include '../../assets/reusable/bd.php';
 
-if (isset($_POST['user_id'])) {
-    $userId = $_POST['user_id'];
+if (isset($_POST['id'])) {
+    $userId = intval($_POST['id']);
 
-    // Consulta para obtener los detalles del usuario, seguidores y posts
     $sql = "SELECT u.user_handle, u.first_name, u.profile_img, u.follower_count, u.created_at, u.active, 
                    (SELECT COUNT(*) FROM followers WHERE follower_id = ?) as following_count, 
                    (SELECT COUNT(*) FROM posts WHERE user_id = ?) as post_count
             FROM users u
             WHERE u.user_id = ?";
+            
     $stmt = $db->prepare($sql);
     $stmt->bind_param("iii", $userId, $userId, $userId);
     $stmt->execute();
@@ -33,4 +33,3 @@ if (isset($_POST['user_id'])) {
     }
     $stmt->close();
 }
-?>

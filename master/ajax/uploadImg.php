@@ -44,4 +44,3 @@ if (isset($_FILES['profilePic'])) {
         echo "Error al subir el archivo: " . $fileError;
     }
 }
-?>

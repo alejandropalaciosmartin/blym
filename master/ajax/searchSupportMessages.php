@@ -2,24 +2,19 @@
 include '../../assets/reusable/bd.php';
 $defaultImgPath = '../assets/images/img/user.jpg';
 
-// Obtiene el término de búsqueda desde la URL
-$query = isset($_GET['q']) ? $_GET['q'] : '';
-
+$query = isset($_GET['id']) ? $_GET['id'] : '';
 
 $sql = empty($query) ?
        "SELECT support.*, users.user_handle, users.first_name, users.profile_img FROM support JOIN users ON support.user_id = users.user_id ORDER BY support.created_at DESC" :
        "SELECT support.*, users.user_handle, users.first_name, users.profile_img FROM support JOIN users ON support.user_id = users.user_id WHERE users.user_handle LIKE '%$query%' OR users.first_name LIKE '%$query%' ORDER BY support.created_at DESC";
 
-
 $result = $db->query($sql);
 
-
-// Comprueba si hay resultados y los muestra
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $handle = htmlspecialchars($row['user_handle']);
         $timeAgo = time_elapsed_string($row['created_at']);
-        $message = htmlspecialchars($row['message']);  // Añadido para mostrar el mensaje
+        $message = htmlspecialchars($row['message']);
         $imgPath = !empty($row['profile_img']) ? '../assets/usersImg/'.$row['profile_img'] : $defaultImgPath;
         
         echo "<div class='support-message'>
@@ -44,9 +39,8 @@ function time_elapsed_string($datetime, $full = false) {
     $ago = new DateTime($datetime);
     $diff = $now->diff($ago);
 
-    // Calculamos las semanas y ajustamos los días
     $weeks = floor($diff->d / 7);
-    $remainingDays = $diff->d % 7; // Días restantes después de extraer las semanas
+    $remainingDays = $diff->d % 7;
 
     $string = array(
         'y' => 'año',
@@ -58,11 +52,10 @@ function time_elapsed_string($datetime, $full = false) {
         's' => 'segundo',
     );
 
-    // Asignamos los valores a las unidades de tiempo
     $diffValues = array(
         'y' => $diff->y,
         'm' => $diff->m,
-        'w' => $weeks,  // Usamos la variable local para semanas
+        'w' => $weeks,
         'd' => $remainingDays,
         'h' => $diff->h,
         'i' => $diff->i,

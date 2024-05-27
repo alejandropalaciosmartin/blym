@@ -96,7 +96,7 @@
             </div>
             <div class="search-bar hidden" id="search-bar-div2">
                 <i class="fas fa-search"></i>
-                <input type="search" placeholder="Search Posts" oninput="searchPosts(this.value)">
+                <input type="search" placeholder="Search Posts" oninput="searchSupportMessages(this.value)">
             </div>
 
             <div class="profile-picture-nav" id="my-profile-picture">

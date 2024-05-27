@@ -2,8 +2,7 @@
 include '../../assets/reusable/bd.php';
 $defaultImgPath = '../assets/images/img/user.jpg';
 
-// Obtiene el término de búsqueda desde la URL
-$query = isset($_GET['q']) ? $_GET['q'] : '';
+$query = isset($_GET['id']) ? $_GET['id'] : '';
 
 $sql = empty($query) ?
        "SELECT * FROM users" :
@@ -18,7 +17,6 @@ echo "<div id='user-popup' class='user-popup'>
         </div>
       </div>";
 
-// Comprueba si hay resultados y los muestra
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $handle = htmlspecialchars($row['user_handle']);
@@ -47,4 +45,3 @@ if ($result->num_rows > 0) {
 } else {
     echo "<div class='no-users'>No users found</div>";
 }
-?>

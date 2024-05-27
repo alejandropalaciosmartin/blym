@@ -2,9 +2,10 @@
 include '../../assets/reusable/bd.php';
 
 if (isset($_POST['id'])) {
-    $id = intval($_POST['id']);  // Asegurarse de que el ID es un número entero
+    $id = intval($_POST['id']);
 
-    $sql = "DELETE FROM support WHERE support_id = $id";
-    $result = $db->query($sql);
+    $stmt = $db->prepare("DELETE FROM support WHERE support_id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $stmt->close();
 }
-?>
