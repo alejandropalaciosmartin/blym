@@ -522,7 +522,7 @@ aside .menu-item:nth-last-child(1){
     margin-right: 10px;
 }
 
-#div2 .user-handle, #div2 .message-text, #div2 .time-ago {
+.support-message .user-handle, .support-message .message-text, .support-message .time-ago {
     overflow: hidden;
     text-overflow: ellipsis;
 }
