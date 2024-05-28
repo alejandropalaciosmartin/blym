@@ -321,11 +321,11 @@ aside .menu-item:nth-last-child(1){
 }
 
 .user-image-container.active::after {
-    background-color: green;
+    background-color: var(--color-success);
 }
 
 .user-image-container.inactive::after {
-    background-color: red;
+    background-color: var(--color-danger);
 }
 
 .user-info {
@@ -438,8 +438,8 @@ aside .menu-item:nth-last-child(1){
 .user-popup-img.inactive::after {
     content: '';
     position: absolute;
-    bottom: 0;
-    right: 0;
+    bottom: 10px;
+    right: 5px;
     width: 20px;
     height: 20px;
     border: 2px solid white;
@@ -447,11 +447,11 @@ aside .menu-item:nth-last-child(1){
 }
 
 .user-popup-img.active::after {
-    background-color: green;
+    background-color: var(--color-success);
 }
 
 .user-popup-img.inactive::after {
-    background-color: red;
+    background-color: var(--color-danger);
 }
 .user-image-popup {
     width: 100px;
@@ -459,7 +459,11 @@ aside .menu-item:nth-last-child(1){
     border-radius: 50%;
     object-fit: cover;
     object-position: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+    border: 3px solid #fff; 
+    margin-bottom: 8px;
 }
+
 .user-info-popup {
     display: flex;
     flex-direction: column;
@@ -629,11 +633,11 @@ aside .menu-item:nth-last-child(1){
 .active-users::after {
     content: '';
     position: absolute;
-    bottom: -5px;
+    bottom: -2px;
     right: -5px; 
-    width: 15px;
-    height: 15px;
-    background-color: green;
+    width: 18px;
+    height: 18px;
+    background-color: var(--color-success);
     border: 2px solid white;
     border-radius: 50%;
 }
@@ -785,7 +789,9 @@ aside .menu-item:nth-last-child(1){
     width: 10rem;
     border-radius: 50%;
     overflow: hidden;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+    border: 3px solid #fff;
 }
 #profile-upload{
     display: none;
