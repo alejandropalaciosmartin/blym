@@ -316,7 +316,7 @@ aside .menu-item:nth-last-child(1){
     right: -1px; 
     width: 15px;
     height: 15px;
-    border: 2px solid white;
+    border: 2px solid var(--color-white);
     border-radius: 50%;
 }
 
@@ -343,7 +343,7 @@ aside .menu-item:nth-last-child(1){
 
 .user-name {
     font-size: 0.8em;
-    color: grey;
+    color: var(--color-gray);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -378,7 +378,7 @@ aside .menu-item:nth-last-child(1){
     width: auto;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    background-color: white;
+    background-color: var(--color-white);
     border-radius: 8px;
     text-align: center;
     font-size: 18px;
@@ -403,7 +403,7 @@ aside .menu-item:nth-last-child(1){
     align-items: center; 
 }
 .popup-content {
-    background-color: #fff;
+    background-color: var(--color-white);
     padding: 20px 30px;
     border-radius: 10px;
     width: 90%;
@@ -422,7 +422,7 @@ aside .menu-item:nth-last-child(1){
     transition: color 300ms ease;
 }
 .user-popup .close:hover {
-    color: #e74c3c;
+    color: var(--color-danger);
 }
 .user-details-popup {
     display: flex;
@@ -442,7 +442,7 @@ aside .menu-item:nth-last-child(1){
     right: 5px;
     width: 20px;
     height: 20px;
-    border: 2px solid white;
+    border: 2px solid var(--color-white);
     border-radius: 50%;
 }
 
@@ -460,7 +460,7 @@ aside .menu-item:nth-last-child(1){
     object-fit: cover;
     object-position: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
-    border: 3px solid #fff; 
+    border: 3px solid var(--color-white); 
     margin-bottom: 8px;
 }
 
@@ -476,12 +476,12 @@ aside .menu-item:nth-last-child(1){
 .user-info-popup p {
     margin: 5px 0;
     font-size: 1rem;
-    color: #555;
+    color: var(--color-gray);
 }
 .user-handle-popup {
-    margin: 0 0 25px 0  !important;
-    font-size: 0.9rem  !important;
-    color: #000000 !important;
+    margin: 0 0 25px 0 !important;
+    font-size: 0.9rem !important;
+    color: var(--color-black) !important;
 }
 .user-followers, .user-following, .user-posts, .user-created {
     font-size: 1rem;
@@ -494,75 +494,63 @@ aside .menu-item:nth-last-child(1){
 /* ........... Start PopUp User Cards for Div1 ........... */
 
 
-
-/* ........... Start Support Div2 ........... */
-.support-message {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-.profile-image {
-    width: 50px;
-    height: 50px;
-    border-radius: 25px;
-    margin-right: 10px;
-}
-.message-content {
-    flex-grow: 1;
-}
-.delete-btn2 {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-}
-/* ........... End Support Div2 ........... */
-
-
 /* ........... End Grid Users Div1 ........... */
 
 
 /* ........... Start Support Div2 ........... */
 #div2 {
-    padding: 0 20px 0 20px;
+    padding: 0 20px;
     margin-bottom: 55px;
 }
+
 .support-message {
     display: flex;
     align-items: center;
     padding: 10px;
-    margin-bottom: 5px;
-    background-color: #f0f0f0;
+    margin-bottom: 9px;
+    background-color: var(--color-light);
     border-radius: 8px;
+    border-bottom: 3px solid #bab7b7;
+    border-top: 1px solid #bab7b7;
+    flex-wrap: wrap;
 }
+
 .profile-image {
     width: 40px;
     height: 40px;
     border-radius: 20px;
     margin-right: 10px;
-}  
+}
+
 #div2 .user-handle, #div2 .message-text, #div2 .time-ago {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-#div2 .user-handle {
+
+.support-message .user-handle {
     font-weight: bold;
     color: #333;
     white-space: nowrap;
     width: 100px;
+    flex-shrink: 0;
 }
+
 .message-text {
     flex-grow: 1;
     margin-right: 20px;
     margin-left: 20px;
-    width:10%;
+    width: 10%;
+    white-space: normal;
 }
+
 .time-ago {
     color: #888;
     font-style: italic;
     margin-right: 10px;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
+
 /* ........... End Support Div2 ........... */
 
 
@@ -577,7 +565,7 @@ aside .menu-item:nth-last-child(1){
     gap: 35px;
 }
 .stat-box {
-    background-color: #fff;
+    background-color: var(--color-white);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -614,7 +602,7 @@ aside .menu-item:nth-last-child(1){
 }
 .stat-value {
     font-size: 46px;
-    color: #000000;
+    color: var(--color-black);
     margin: 0;
 }
 .total-users {
@@ -638,7 +626,7 @@ aside .menu-item:nth-last-child(1){
     width: 18px;
     height: 18px;
     background-color: var(--color-success);
-    border: 2px solid white;
+    border: 2px solid var(--color-white);
     border-radius: 50%;
 }
 /* ........... End Support Div3 ........... */
@@ -766,7 +754,7 @@ aside .menu-item:nth-last-child(1){
     top: 0;
     justify-content: center;
     z-index: 9;
-    background: #000000ba;
+    background: var(--color-black);
     display: none;
 }
 .popup>div{
@@ -791,7 +779,7 @@ aside .menu-item:nth-last-child(1){
     overflow: hidden;
     margin-top: 1.5rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
-    border: 3px solid #fff;
+    border: 3px solid var(--color-white);
 }
 #profile-upload{
     display: none;
