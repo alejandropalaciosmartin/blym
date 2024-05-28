@@ -263,12 +263,15 @@ aside .menu-item:nth-last-child(1){
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
     border-radius: 10px;
+    position: relative;
 }
+
 .user-card:hover {
     transform: scale(1.02);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 15px 30px rgba(0, 0, 0, 0.2); 
     border-radius: 10px;
 }
+
 .user-card:hover::after {
     content: '';
     position: absolute;
@@ -281,17 +284,22 @@ aside .menu-item:nth-last-child(1){
     transition: background 0.2s;
     border-radius: 10px;
 }
+
 .user-details {
-    flex-grow: 1;
     display: flex;
     align-items: center;
+    flex-grow: 1;
+    overflow: hidden;
 }
+
 .user-image-container {
     position: relative;
     width: 50px;
     height: 50px;
     margin-right: 10px;
+    flex-shrink: 0;
 }
+
 .user-image {
     width: 100%;
     height: 100%;
@@ -299,42 +307,64 @@ aside .menu-item:nth-last-child(1){
     object-fit: cover;
     object-position: center;
 }
+
 .user-image-container.active::after,
 .user-image-container.inactive::after {
     content: '';
     position: absolute;
-    bottom: -5px;
+    bottom: 0;
     right: -1px; 
     width: 15px;
     height: 15px;
     border: 2px solid white;
     border-radius: 50%;
 }
+
 .user-image-container.active::after {
     background-color: green;
 }
+
 .user-image-container.inactive::after {
     background-color: red;
 }
+
 .user-info {
-    margin: 0;
+    flex-grow: 1;
+    min-width: 0;
 }
+
+.user-handle {
+    margin: 0;
+    font-size: 1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .user-name {
     font-size: 0.8em;
     color: grey;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
 .delete-btn {
     font-size: 20px;
     border: none;
     background-color: transparent;
     cursor: pointer;
+    flex-shrink: 0;
 }
+
 .delete-btn i {
     transition: transform 0.3s ease;
 }
+
 .delete-btn:hover i {
     transform: rotate(45deg);
 }
+
 .delete-icon {
     color: red;
 }
@@ -508,14 +538,15 @@ aside .menu-item:nth-last-child(1){
     border-radius: 20px;
     margin-right: 10px;
 }  
-.user-handle, .message-text, .time-ago {
+#div2 .user-handle, #div2 .message-text, #div2 .time-ago {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.user-handle {
-    margin-right: 20px;
+#div2 .user-handle {
     font-weight: bold;
     color: #333;
+    white-space: nowrap;
+    width: 100px;
 }
 .message-text {
     flex-grow: 1;
