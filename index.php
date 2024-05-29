@@ -10,12 +10,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signin'])) {
     $email = $_POST['email'];
     $password = $_POST['password']; // TODO: Considerar hashear la contraseña
 
-    $sql = "SELECT user_id FROM users WHERE email_address = '$email' AND password = '$password'"; // Comprobar si el usuario y la contraseña están en la base de datos
+    $sql = "SELECT * FROM users WHERE email_address = '$email' AND password = '$password'"; // Comprobar si el usuario y la contraseña están en la base de datos
     $result = $db->query($sql);
+    $row = $result->fetch_assoc();
 
-    if ($result->num_rows > 0) { // Inicio de sesión exitoso
-
-        $row = $result->fetch_assoc();
+    if($row['active'] == 1) {
+        $_SESSION['error'] = "User is already logged in";
+        header('Location: ./index.php'); // Redireccionamiento aquí para mostrar el mensaje de error
+        exit();
+    }
+    else if ($result->num_rows > 0) { // Inicio de sesión exitoso
         $_SESSION['user_id'] = $row['user_id'];
         
         $user_id = $row['user_id'];

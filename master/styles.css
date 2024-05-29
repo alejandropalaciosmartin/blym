@@ -53,6 +53,11 @@ img{
 .profile-picture:hover{
     opacity: 0.75;
 }
+.profile-picture img{
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
 
 .btn{
     padding: var(--btn-padding);
@@ -245,12 +250,6 @@ aside .menu-item:nth-last-child(1){
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
     padding: 20px;
-}
-
-@media (max-width: 600px) {
-    .users-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    }
 }
 
 /* ........... Start User-Card ........... */
@@ -520,6 +519,8 @@ aside .menu-item:nth-last-child(1){
     height: 40px;
     border-radius: 20px;
     margin-right: 10px;
+    object-fit: cover;
+    object-position: center;
 }
 
 .support-message .user-handle, .support-message .message-text, .support-message .time-ago {
@@ -873,6 +874,8 @@ aside .menu-item:nth-last-child(1){
         width: 40px; 
         height: 40px;
         border-radius: 50%;
+        object-fit: cover;
+        object-position: center;
     }
     aside {
         position: fixed;

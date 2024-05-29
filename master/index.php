@@ -76,7 +76,7 @@
     <link rel="icon" href="../assets/images/svg/b.svg" type="image/x-icon">
 
     <!-- =============== CUSTOM CSS LINK =============== -->
-    <link rel="stylesheet" href="./styles.css?v=2">
+    <link rel="stylesheet" href="./styles.css">
 
     <!-- =============== Font Awesome Link =============== -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
