@@ -1,3 +1,31 @@
+<?php
+include '../assets/reusable/sesions.php';
+include '../assets/reusable/bd.php';
+
+// --- PROFILE DATA ---
+$userId = $_SESSION['user_id'];
+$sql = "SELECT * FROM users WHERE user_id = $userId";
+$result = $db->query($sql);
+$row = $result->fetch_assoc();
+
+$img = !empty($row['profile_img']) ? '../assets/usersImg/'.$row['profile_img'] : '../assets/images/img/user.jpg';
+$user_handle = $row['user_handle'];
+$first_name = $row['first_name'];
+
+
+// --- STORIES ---
+$get_stories_sql = "SELECT stories.src, users.user_handle, users.profile_img
+        FROM stories
+        JOIN users ON stories.user_id = users.user_id
+        JOIN followers ON users.user_id = followers.following_id
+        WHERE followers.follower_id = $userId";
+
+$get_stories_result = $db->query($get_stories_sql);
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +61,7 @@
             <div class="add-post">
                 <label for="add-post" class="btn btn-primary mini-button">Add Post</label>
                 <div class="profile-picture" id="my-profile-picture">
-                    <img src="../assets/images/img/user.jpg" alt="">
+                    <img src="<?php echo $img; ?>" alt="">
                 </div>
             </div>
         </div>
@@ -49,7 +77,7 @@
                 <!-- =============== Profile Section =============== -->
                 <a class="profile">
                     <div class="profile-picture" id="my-profile-picture">
-                        <img src="../assets/images/img/user.jpg" alt="">
+                        <img src="<?php echo $img; ?>" alt="">
                     </div>
                     <div class="profile-name">
                         <h4>John Doe</h4>
@@ -66,57 +94,7 @@
 
                      <a class="menu-item">
                         <span><img src="../assets/images/svg/bell.svg" alt=""></span>
-                        <small class="notfy-counter">7+</small> 
-                        <h3>Notifications</h3>
-
-                        <!-- =============== Notification Box Start =============== -->
-                        <div class="notification-box">
-                            <div>
-                                <div class="profile-picture">
-                                    <img src="../assets/images/img/user.jpg" alt="">
-                                </div>
-                                <div class="notification-body">
-                                    <b>Maria Lily</b> accepted your friend request
-                                    <small class="text-gry">1 Days Ago</small>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="profile-picture">
-                                    <img src="../assets/images/img/user.jpg" alt="">
-                                </div>
-                                <div class="notification-body">
-                                    <b>Maria Lily</b> accepted your friend request
-                                    <small class="text-gry">1 Days Ago</small>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="profile-picture">
-                                    <img src="../assets/images/img/user.jpg" alt="">
-                                </div>
-                                <div class="notification-body">
-                                    <b>Maria Lily</b> accepted your friend request
-                                    <small class="text-gry">1 Days Ago</small>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="profile-picture">
-                                    <img src="../assets/images/img/user.jpg" alt="">
-                                </div>
-                                <div class="notification-body">
-                                    <b>Maria Lily</b> accepted your friend request
-                                    <small class="text-gry">1 Days Ago</small>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="profile-picture">
-                                    <img src="./Assets/images/img/user.jpg" alt="">
-                                </div>
-                                <div class="notification-body">
-                                    <b>Maria Lily</b> accepted your friend request
-                                    <small class="text-gry">1 Days Ago</small>
-                                </div>
-                            </div>
-                        </div>
+                        <h3>Notification</h3>
                      </a>
 
                      <a class="menu-item">
@@ -145,10 +123,10 @@
                     <div class="stories">
                         <div class="stories-wrapper swiper mySwiper">
                             <div class="swiper-wrapper">
-                                <div class="story swiper-slide">
+                                <div class="story swiper-slide" onclick="uploadStoryImg()">
                                     <img src="" alt="">
                                     <div class="profile-picture" id="my-profile-picture">
-                                        <img src="../assets/images/img/user.jpg" alt="">
+                                        <img src="<?php echo $img; ?>" alt="">
                                     </div>
                                     <label for="add-story" class="add-story">
                                         <i class="fa fa-add" id="upload"></i>
@@ -156,62 +134,21 @@
                                     </label>
                                     <input type="file" accept="image/jpg, image/jpeg, image/png" id="add-story">
                                 </div>
-                                <div class="story swiper-slide">
-                                    <img src="../assets/images/img/user.jpg" alt="">
-                                    <div class="profile-picture">
-                                        <img src="../assets/images/img/user.jpg" alt="">
-                                    </div>
-                                    <small><i class="fa fa-add"></i></small>
-                                    <p>IDK</p>
-                                </div>
-                                <div class="story swiper-slide">
-                                    <img src="../assets/images/img/user.jpg" alt="">
-                                    <div class="profile-picture">
-                                        <img src="../assets/images/img/user.jpg" alt="">
-                                    </div>
-                                    <small><i class="fa fa-add"></i></small>
-                                    <p>IDK</p>
-                                </div>
-                                <div class="story swiper-slide">
-                                    <img src="../assets/images/img/user.jpg" alt="">
-                                    <div class="profile-picture">
-                                        <img src="../assets/images/img/user.jpg" alt="">
-                                    </div>
-                                    <small><i class="fa fa-add"></i></small>
-                                    <p>IDK</p>
-                                </div>
-                                <div class="story swiper-slide">
-                                    <img src="../assets/images/img/user.jpg" alt="">
-                                    <div class="profile-picture">
-                                        <img src="../assets/images/img/user.jpg" alt="">
-                                    </div>
-                                    <small><i class="fa fa-add"></i></small>
-                                    <p>IDK</p>
-                                </div>
-                                <div class="story swiper-slide">
-                                    <img src="../assets/images/img/user.jpg" alt="">
-                                    <div class="profile-picture">
-                                        <img src="../assets/images/img/user.jpg" alt="">
-                                    </div>
-                                    <small><i class="fa fa-add"></i></small>
-                                    <p>IDK</p>
-                                </div>
-                                <div class="story swiper-slide">
-                                    <img src="../assets/images/img/user.jpg" alt="">
-                                    <div class="profile-picture">
-                                        <img src="../assets/images/img/user.jpg" alt="">
-                                    </div>
-                                    <small><i class="fa fa-add"></i></small>
-                                    <p>IDK</p>
-                                </div>
-                                <div class="story swiper-slide">
-                                    <img src="../assets/images/img/user.jpg" alt="">
-                                    <div class="profile-picture">
-                                        <img src="../assets/images/img/user.jpg" alt="">
-                                    </div>
-                                    <small><i class="fa fa-add"></i></small>
-                                    <p>IDK</p>
-                                </div>
+
+                                <?php
+                                    while ($story = $get_stories_result->fetch_assoc()) {
+                                        $profile_img = $story['profile_img'] ? '../assets/usersImg/' . htmlspecialchars($story['profile_img']) : '../assets/images/img/user.jpg';
+                                        
+                                        echo '<div class="story swiper-slide">
+                                                <img src="' . htmlspecialchars($story['src']) . '" alt="">
+                                                <div class="profile-picture">
+                                                    <img src="' . $profile_img . '" alt="">
+                                                </div>
+                                                <small><i class="fa fa-add"></i></small>
+                                                <p>' . htmlspecialchars($story['user_handle']) . '</p>
+                                              </div>';
+                                    }
+                                ?>
                             </div>
 
                         </div>
@@ -220,9 +157,9 @@
                     <!-- .............Post Input............. -->
                     <form class="add-post input-post">
                         <div class="profile-picture" id="my-profile-picture">
-                            <img src="../assets/images/img/user.jpg" alt="">
+                            <img src="<?php echo $img; ?>" alt="">
                         </div>
-                        <input type="text" placeholder="What's on your mind?" id="add-post">
+                        <input type="text" placeholder="Type something" id="add-post">
                         <input type="submit" value="post" class="btn btn-primary">
                     </form>
 
@@ -421,14 +358,19 @@
     <div class="popup profile-popup">
         <div>
             <div class="popup-box profile-popup-box">
-                <h1>Beg Joker</h1>
-                <p>@thebegjoker</p>
+                <h1><?php echo $first_name; ?></h1>
+                <p>@<?php echo $user_handle; ?></p>
                 <div id="my-profile-picture">
-                    <img src="../assets/images/img/user.jpg" alt="">
+                    <img src="<?php echo $img; ?>" alt="Profile Picture" id="my-profile-picture-pop-up">
                 </div>
-                <label for="profile-upload" class="btn btn-primary btn-lg">Update Profile Picture</label>
-                <input type="file" accept="image/jpg, image/jpeg, image/png" id="profile-upload">
-                <button class="btn btn-lg btn-primary">Log Out</button>
+                <form id="uploadForm" enctype="multipart/form-data" class="form-inline">
+                    <label for="profile-upload" class="btn btn-primary btn-lg">
+                        <i class="fa fa-upload"></i>
+                    </label>
+                    <input type="file" accept="image/jpg, image/jpeg, image/png" id="profile-upload" name="profilePic">
+                    <button type="button" class="btn btn-lg btn-primary" onclick="uploadImage()">Save Changes</button>
+                </form>
+                <button class="btn btn-lg btn-primary" onclick="window.location.href='logout.php'">Log Out</button>
             </div>
             <span class="close"><i class="fa fa-close"></i></span>
         </div>
@@ -462,7 +404,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <!-- =============== Custom JS Link =============== -->
-    <script src="./scripts.js"></script>
+    <script src="./scripts.js?v=2"></script>
 
 </body>
 </html>

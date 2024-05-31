@@ -4,6 +4,24 @@ session_start();
 
 include './assets/reusable/bd.php';
 
+if(isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+    $sql = "SELECT * FROM users WHERE user_id = '$user_id'";
+    $result = $db->query($sql);
+    $row = $result->fetch_assoc();
+
+    $email = $row['email_address'];
+
+    if($email == 'srjalean@gmail.com') {
+        header("Location: ./master/"); // Redirecciona al usuario a la página de administrador
+        exit();
+    } else { 
+        header("Location: ./principal_page/"); // Redirecciona al usuario a la página de usuario normal
+        exit();
+    }
+}
+
+
 // Verifica si se envió el formulario de inicio de sesión
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signin'])) {
 
@@ -14,12 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signin'])) {
     $result = $db->query($sql);
     $row = $result->fetch_assoc();
 
-    if($row['active'] == 1) {
-        $_SESSION['error'] = "User is already logged in";
-        header('Location: ./index.php'); // Redireccionamiento aquí para mostrar el mensaje de error
-        exit();
-    }
-    else if ($result->num_rows > 0) { // Inicio de sesión exitoso
+    if ($result->num_rows > 0) { // Inicio de sesión exitoso
         $_SESSION['user_id'] = $row['user_id'];
         
         $user_id = $row['user_id'];

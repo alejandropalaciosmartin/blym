@@ -478,7 +478,7 @@ aside .menu-item:nth-last-child(2){
     top: 0;
     justify-content: center;
     z-index: 9;
-    background: #000000ba;
+    background: var(--color-black);
     display: none;
 }
 .popup>div{
@@ -501,7 +501,9 @@ aside .menu-item:nth-last-child(2){
     width: 10rem;
     border-radius: 50%;
     overflow: hidden;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+    border: 3px solid var(--color-white);
 }
 #profile-upload{
     display: none;
@@ -519,6 +521,19 @@ aside .menu-item:nth-last-child(2){
 }
 .popup .close:hover{
     color: var(--color-primary);
+}
+.form-inline {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+#profile-upload {
+    display: none;
+}
+.form-inline label{
+    width: 20%;
 }
 /* ........... End Profile Popup ........... */
 
@@ -648,9 +663,6 @@ aside .menu-item:nth-last-child(2){
             top: .3rem;
             left: auto;
             right: .5rem;
-        }
-        .btn-lg {
-            display: none;
         }
         aside .active{
             background: var(--color-light);

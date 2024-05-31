@@ -46,12 +46,59 @@ document.querySelectorAll('.close').forEach( AllCloser => {
     })
 })
  
-// -ESTO ES PARA CAMBIAR LA FOTO DE PERFIL, QUITAR EN UN FUTURO YA QUE LO VAMOS A HACER CON PHP (AJAX)
-document.querySelector('#profile-upload').addEventListener('change',() => {
-    document.querySelectorAll('#my-profile-picture img').forEach(AllMyProfileImg => {
-        AllMyProfileImg.src = URL.createObjectURL(document.querySelector('#profile-upload').files[0])
+// --------------------UPLOAD PROFILE PHOTO--------------------
+document.getElementById('profile-upload').addEventListener('change', function() {
+    var fileInput = this
+    var file = fileInput.files[0]
+    if (file) {
+        var imgUrl = URL.createObjectURL(file);
+        document.querySelector('#my-profile-picture-pop-up').src = imgUrl
+    }
+  })
+  
+  function uploadImage() {
+    var fileInput = document.getElementById('profile-upload')
+    var file = fileInput.files[0]
+    var formData = new FormData()
+    formData.append('profilePic', file)
+  
+    fetch('./ajax/uploadImg.php', {
+        method: 'POST',
+        body: formData,
     })
-})
+    .then(response => response.text())
+    .then(data => {
+        window.location.reload()
+    })
+    .catch(error => {
+        console.error('Error:', error)
+        alert("Failed to upload image.")
+    })
+  }
+
+
+// --------------------UPLOAD STORIES IMAGES--------------------
+function uploadStoryImg() {
+    var fileInput = document.getElementById('add-story')
+    var file = fileInput.files[0]
+    var formData = new FormData()
+    formData.append('storyImg', file)
+  
+    fetch('./ajax/uploadStoryImg.php', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => response.text())
+    .then(data => {
+        window.location.reload()
+    })
+    .catch(error => {
+        console.error('Error:', error)
+        alert("Failed to upload image.")
+    })
+  }
+
+
 
 
 // --------------------ADD POST POPUP--------------------
@@ -67,10 +114,10 @@ document.querySelector('#feed-pic-upload').addEventListener('change',() => {
 
 // --------------------ADD STORY--------------------
 
-document.querySelector('#add-story').addEventListener('click', () => {
-    document.querySelector('.story img').src = URL.createObjectURL(document.querySelector('#add-story').files[0])
-    document.querySelector('.add-story').style.display = 'none'
-});
+// document.querySelector('#add-story').addEventListener('click', () => {
+//     document.querySelector('.story img').src = URL.createObjectURL(document.querySelector('#add-story').files[0])
+//     document.querySelector('.add-story').style.display = 'none'
+// });
 
 
 // --------------------HIGHLIGHT POST INPUT--------------------
