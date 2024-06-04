@@ -27,16 +27,14 @@ if (isset($_FILES['storyImg'])) {
 
         // Mover el archivo subido a la carpeta de destino
         if (move_uploaded_file($fileTmpName, $fileDestination)) {
-
-            // Actualizar la base de datos con la nueva ruta de imagen
-            $sql = "UPDATE stories SET src = '$newFileName' WHERE user_id = $userId";
+            // Insertar la nueva imagen en la base de datos
+            $sql = "INSERT INTO stories (src, user_id) VALUES ('$newFileName', $userId)";
             $result = $db->query($sql);
             if ($result) {
                 echo "Imagen actualizada correctamente.";
             } else {
                 echo "Error al actualizar la imagen en la base de datos: " . $db->error;
             }
-
         } else {
             echo "Hubo un error al guardar el archivo.";
         }
@@ -44,3 +42,4 @@ if (isset($_FILES['storyImg'])) {
         echo "Error al subir el archivo: " . $fileError;
     }
 }
+?>

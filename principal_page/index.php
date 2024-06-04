@@ -22,6 +22,17 @@ $get_stories_sql = "SELECT stories.src, users.user_handle, users.profile_img
 
 $get_stories_result = $db->query($get_stories_sql);
 
+$my_stories_sql = "SELECT src FROM stories WHERE user_id = $userId";
+$my_stories_result = $db->query($my_stories_sql);
+$story_row = $my_stories_result->fetch_assoc();
+
+if ($story_row) {
+    $my_story_src = '../assets/storiesImg/' . $story_row['src'];
+} else {
+    $my_story_src = '';
+}
+
+
 
 
 ?>
@@ -37,7 +48,7 @@ $get_stories_result = $db->query($get_stories_sql);
     <link rel="icon" href="../assets/images/svg/b.svg" type="image/x-icon">
 
     <!-- =============== CUSTOM CSS LINK =============== -->
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./styles.css?v=2">
 
     <!-- =============== Font Awesome Link =============== -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -52,16 +63,12 @@ $get_stories_result = $db->query($get_stories_sql);
     <nav>
         <div class="container nav-container">
             <div class="logo">
-                <h3>Social <span>Book</span></h3>
-            </div>
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="search" placeholder="Search For Creators">
+                <h3>BLYM</h3>
             </div>
             <div class="add-post">
                 <label for="add-post" class="btn btn-primary mini-button">Add Post</label>
                 <div class="profile-picture" id="my-profile-picture">
-                    <img src="<?php echo $img; ?>" alt="">
+                    <img src="<?php echo $img; ?>" class="user-image" alt="">
                 </div>
             </div>
         </div>
@@ -77,11 +84,11 @@ $get_stories_result = $db->query($get_stories_sql);
                 <!-- =============== Profile Section =============== -->
                 <a class="profile">
                     <div class="profile-picture" id="my-profile-picture">
-                        <img src="<?php echo $img; ?>" alt="">
+                        <img src="<?php echo $img; ?>" class="user-image" alt="">
                     </div>
                     <div class="profile-name">
-                        <h4>John Doe</h4>
-                        <p class="text-gry">@thebegjoker</p>
+                        <h4><?php echo $first_name; ?></h4>
+                        <p class="text-gry">@<?php echo $user_handle; ?></p>
                     </div>
                 </a>
 
@@ -92,12 +99,12 @@ $get_stories_result = $db->query($get_stories_sql);
                      </a>
 
 
-                     <a class="menu-item">
-                        <span><img src="../assets/images/svg/bell.svg" alt=""></span>
-                        <h3>Notification</h3>
+                     <a class="menu-item" onclick="openUserListPopup()">
+                        <span><img src="../assets/images/svg/user.svg" alt=""></span>
+                        <h3>Users</h3>
                      </a>
 
-                     <a class="menu-item">
+                     <a class="menu-item" onclick="openSupportPopup()">
                         <span><img src="../assets/images/svg/chat-left-dots.svg" alt=""></span> 
                         <h3>Support</h3>
                      </a>
@@ -105,13 +112,7 @@ $get_stories_result = $db->query($get_stories_sql);
                      <a class="menu-item">
                         <span><img src="../assets/images/svg/bookmarks.svg" alt=""></span> <h3>Book Marks</h3>
                      </a>
-
-                     <a class="menu-item">
-                        <span><img src="../assets/images/svg/gear.svg" alt=""></span> <h3>Settings</h3>
-                     </a>
                 
-                     <!-- =============== Add Post Button =============== -->
-                     <label for="add-post" class="btn btn-primary btn-lg" id="crate-lg">Create A Post</label>
                 </aside>
             </div>
 
@@ -123,16 +124,16 @@ $get_stories_result = $db->query($get_stories_sql);
                     <div class="stories">
                         <div class="stories-wrapper swiper mySwiper">
                             <div class="swiper-wrapper">
-                                <div class="story swiper-slide" onclick="uploadStoryImg()">
-                                    <img src="" alt="">
+                                <div class="story swiper-slide">
+                                    <img id="story-img" src="<?php echo $my_story_src ?>" alt="">
                                     <div class="profile-picture" id="my-profile-picture">
-                                        <img src="<?php echo $img; ?>" alt="">
+                                        <img src="<?php echo $img; ?>" class="user-image" alt="">
                                     </div>
-                                    <label for="add-story" class="add-story">
-                                        <i class="fa fa-add" id="upload"></i>
+                                    <label for="add-story" class="add-story" id="upload">
+                                        <i class="fa fa-add"></i>
                                         <p>Add Your <br> Story</p>
                                     </label>
-                                    <input type="file" accept="image/jpg, image/jpeg, image/png" id="add-story">
+                                    <input type="file" accept="image/jpg, image/jpeg, image/png" id="add-story" style="display:none" onchange="uploadStoryImg()">
                                 </div>
 
                                 <?php
@@ -140,7 +141,7 @@ $get_stories_result = $db->query($get_stories_sql);
                                         $profile_img = $story['profile_img'] ? '../assets/usersImg/' . htmlspecialchars($story['profile_img']) : '../assets/images/img/user.jpg';
                                         
                                         echo '<div class="story swiper-slide">
-                                                <img src="' . htmlspecialchars($story['src']) . '" alt="">
+                                                <img src="../assets/storiesImg/' . htmlspecialchars($story['src']) . '" alt="">
                                                 <div class="profile-picture">
                                                     <img src="' . $profile_img . '" alt="">
                                                 </div>
@@ -157,7 +158,7 @@ $get_stories_result = $db->query($get_stories_sql);
                     <!-- .............Post Input............. -->
                     <form class="add-post input-post">
                         <div class="profile-picture" id="my-profile-picture">
-                            <img src="<?php echo $img; ?>" alt="">
+                            <img src="<?php echo $img; ?>" class="user-image" alt="">
                         </div>
                         <input type="text" placeholder="Type something" id="add-post">
                         <input type="submit" value="post" class="btn btn-primary">
@@ -175,34 +176,25 @@ $get_stories_result = $db->query($get_stories_sql);
                                     <div class="info">
                                         <h3>Paco</h3>
                                         <div class="time text-gry">
-                                            <small> PAKISTAN, <span>1 hour ago</span> </small>
+                                            <small>1 hour ago</small>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="edit">
-                                    <img src="../assets/images/svg/three-dots.svg" alt="">
-                                    <ul class="edit-menu">
-                                        <li><i class="fa fa-pen"></i>Edit</li>
-                                        <li><i class="fa fa-trash"></i>Delete</li>
-                                    </ul>
-                                </div>
                             </div>
 
-                            <!-- ....Feed Img.... -->
-                            <div class="feed-img">
-                                <img src="../assets/images/img/user.jpg" alt="">
+                            <!-- ....Feed Middle.... -->
+                            <div class="feed-middle">
+                                <p>Hey, I'm Paco, I'm a web developer and I'm looking for a job. I have experience in HTML, CSS, JS, PHP, and MySQL. I'm also familiar with frameworks like Bootstrap and jQuery. I'm looking for a job in a company where I can grow and learn new things. If you have any job opportunities, please let me know. Thank you!</p>
                             </div>
 
                             <!-- ....Feed Action Aria.... -->
                             <div class="action-button">
                                 <div class="interaction-button">
                                     <span><i class="fas fa-heart"></i></span>
-                                    <span><i class="fas fa-comment-dots"></i></span>
-                                    <span><i class="fas fa-link"></i></span>
+                                    <span><i class="fas fa-bookmark"></i></span>
                                 </div>
-                                <div class="bookmark">
-                                    <i class="fas fa-bookmark"></i>
-                                </div>
+                                
+                                
                             </div>
 
                             <!-- ....Liked By.... -->
@@ -210,139 +202,8 @@ $get_stories_result = $db->query($get_stories_sql);
                                 <span><img src="../assets/images/img/user.jpg" alt=""></span>
                                 <span><img src="../assets/images/img/user.jpg" alt=""></span>
                                 <span><img src="../assets/images/img/user.jpg" alt=""></span>
-                                <p><b>Jhon Williams</b>and <b>77 comments other</b></p>
+                                <p><b>64</b> likes</p>
                             </div>
-
-                            <!-- ....Caption.... -->
-                            <div class="caption">
-                                <div class="title">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, sequi.</div>
-                                <p><b>Lana White</b> Lorem ipsum dolor, sit amet consectetur adipisicing elit. <span class="hars-tag">#lifestyle</span></p>
-                            </div>
-
-                            <!-- ....Comments.... -->
-                            <div class="comments text-gry">
-                                View all comments
-                            </div>
-
-                        </div>
-                        <div class="feed">
-                            <!-- ....Feed Top.... -->
-                            <div class="feed-top">
-                                <div class="user">
-                                    <div class="profile-picture">
-                                        <img src="../assets/images/img/user.jpg" alt="">
-                                    </div>
-                                    <div class="info">
-                                        <h3>Paco</h3>
-                                        <div class="time text-gry">
-                                            <small> PAKISTAN, <span>1 hour ago</span> </small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="edit">
-                                    <img src="../assets/images/svg/three-dots.svg" alt="">
-                                    <ul class="edit-menu">
-                                        <li><i class="fa fa-pen"></i>Edit</li>
-                                        <li><i class="fa fa-trash"></i>Delete</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- ....Feed Img.... -->
-                            <div class="feed-img">
-                                <img src="../assets/images/img/user.jpg" alt="">
-                            </div>
-
-                            <!-- ....Feed Action Aria.... -->
-                            <div class="action-button">
-                                <div class="interaction-button">
-                                    <span><i class="fas fa-heart"></i></span>
-                                    <span><i class="fas fa-comment-dots"></i></span>
-                                    <span><i class="fas fa-link"></i></span>
-                                </div>
-                                <div class="bookmark">
-                                    <i class="fas fa-bookmark"></i>
-                                </div>
-                            </div>
-
-                            <!-- ....Liked By.... -->
-                            <div class="liked-by">
-                                <span><img src="../assets/images/img/user.jpg" alt=""></span>
-                                <span><img src="../assets/images/img/user.jpg" alt=""></span>
-                                <span><img src="../assets/images/img/user.jpg" alt=""></span>
-                                <p><b>Jhon Williams</b>and <b>77 comments other</b></p>
-                            </div>
-
-                            <!-- ....Caption.... -->
-                            <div class="caption">
-                                <div class="title">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, sequi.</div>
-                                <p><b>Lana White</b> Lorem ipsum dolor, sit amet consectetur adipisicing elit. <span class="hars-tag">#lifestyle</span></p>
-                            </div>
-
-                            <!-- ....Comments.... -->
-                            <div class="comments text-gry">
-                                View all comments
-                            </div>
-
-                        </div>
-                        <div class="feed">
-                            <!-- ....Feed Top.... -->
-                            <div class="feed-top">
-                                <div class="user">
-                                    <div class="profile-picture">
-                                        <img src="../assets/images/img/user.jpg" alt="">
-                                    </div>
-                                    <div class="info">
-                                        <h3>Paco</h3>
-                                        <div class="time text-gry">
-                                            <small> PAKISTAN, <span>1 hour ago</span> </small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="edit">
-                                    <img src="../assets/images/svg/three-dots.svg" alt="">
-                                    <ul class="edit-menu">
-                                        <li><i class="fa fa-pen"></i>Edit</li>
-                                        <li><i class="fa fa-trash"></i>Delete</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- ....Feed Img.... -->
-                            <div class="feed-img">
-                                <img src="../assets/images/img/user.jpg" alt="">
-                            </div>
-
-                            <!-- ....Feed Action Aria.... -->
-                            <div class="action-button">
-                                <div class="interaction-button">
-                                    <span><i class="fas fa-heart"></i></span>
-                                    <span><i class="fas fa-comment-dots"></i></span>
-                                    <span><i class="fas fa-link"></i></span>
-                                </div>
-                                <div class="bookmark">
-                                    <i class="fas fa-bookmark"></i>
-                                </div>
-                            </div>
-
-                            <!-- ....Liked By.... -->
-                            <div class="liked-by">
-                                <span><img src="../assets/images/img/user.jpg" alt=""></span>
-                                <span><img src="../assets/images/img/user.jpg" alt=""></span>
-                                <span><img src="../assets/images/img/user.jpg" alt=""></span>
-                                <p><b>Jhon Williams</b>and <b>77 comments other</b></p>
-                            </div>
-
-                            <!-- ....Caption.... -->
-                            <div class="caption">
-                                <p><b>Lana White</b> Lorem ipsum dolor, sit amet consectetur adipisicing elit. <span class="hars-tag">#lifestyle</span></p>
-                            </div>
-
-                            <!-- ....Comments.... -->
-                            <div class="comments text-gry">
-                                View all comments
-                            </div>
-
                         </div>
                     </div>
                 </div>
@@ -361,7 +222,7 @@ $get_stories_result = $db->query($get_stories_sql);
                 <h1><?php echo $first_name; ?></h1>
                 <p>@<?php echo $user_handle; ?></p>
                 <div id="my-profile-picture">
-                    <img src="<?php echo $img; ?>" alt="Profile Picture" id="my-profile-picture-pop-up">
+                    <img src="<?php echo $img; ?>" class="user-image" alt="Profile Picture" id="my-profile-picture-pop-up">
                 </div>
                 <form id="uploadForm" enctype="multipart/form-data" class="form-inline">
                     <label for="profile-upload" class="btn btn-primary btn-lg">
@@ -396,6 +257,36 @@ $get_stories_result = $db->query($get_stories_sql);
                 </div>
             </form>
             <span class="close"><i class="fa fa-close"></i></span>
+        </div>
+    </div>
+
+    <div class="popup support-popup" id="supportPopup">
+        <div>
+            <div class="popup-box support-popup-box">
+                <h1>Support</h1>
+                <textarea id="supportMessage" placeholder="Type your message here..." rows="10" style="width: 100%;"></textarea>
+                <button class="btn btn-primary btn-lg" onclick="sendSupportMessage()">Send Message</button>
+            </div>
+            <span class="close" onclick="closeSupportPopup()"><i class="fa fa-close"></i></span>
+        </div>
+    </div>
+
+    <div class="popup user-list-popup" id="userListPopup">
+        <div>
+            <div class="popup-box user-list-popup-box">
+                <div class="header">
+                    <button id="allUsersBtn" class="btn btn-primary" onclick="showAllUsers()">All Users</button>
+                    <button id="followedUsersBtn" class="btn btn-secondary" onclick="showFollowedUsers()">Followed Users</button>
+                    
+                </div>
+                <div class="search-bar">
+                    <input type="search" id="userSearchInput" onkeyup="filterUserList()" placeholder="Search for users..." class="search-input">
+                </div>
+                <div id="userListContent" class="user-list-content">
+                    <!-- Aquí se cargará la lista de usuarios -->
+                </div>
+            </div>
+            <span class="close" onclick="closeUserListPopup()"><i class="fa fa-close"></i></span>
         </div>
     </div>
 
