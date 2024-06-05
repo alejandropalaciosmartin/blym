@@ -1,12 +1,62 @@
 document.addEventListener("DOMContentLoaded", function() {
-    var storyImg = document.getElementById('story-img');
-    var addStoryLabel = document.getElementsByClassName('add-story')[0];
+    var storyImg = document.getElementById('story-img')
+    var addStoryLabel = document.getElementsByClassName('add-story')[0]
 
     if (storyImg.getAttribute('src') !== '') {
-        addStoryLabel.style.display = 'none';
+        addStoryLabel.style.display = 'none'
     } else {
-        addStoryLabel.style.display = 'flex';
+        addStoryLabel.style.display = 'flex'
     }
+
+    function fetchPosts() {
+        fetch('./ajax/fetchPosts.php')
+            .then(response => response.json())
+            .then(data => {
+                const feedContainer = document.querySelector('.feeds')
+                feedContainer.innerHTML = ''
+
+                data.forEach(post => {
+                    const postElement = document.createElement('div')
+                    postElement.className = 'feed'
+                    postElement.innerHTML = `
+                        <div class="feed-top">
+                            <div class="user">
+                                <div class="profile-picture">
+                                    <img src="../assets/usersImg/${post.profile_img}" alt="" class="user-image">
+                                </div>
+                                <div class="info">
+                                    <h3>${post.first_name}</h3>
+                                    <div class="time text-gry">
+                                        <small>${post.created_at}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feed-middle">
+                            <p>${post.post_text}</p>
+                        </div>
+                        <div class="action-button">
+                            <div class="interaction-button">
+                                <span><i class="fas fa-heart"></i></span>
+                                <span><i class="fas fa-bookmark"></i></span>
+                            </div>
+                        </div>
+                        <div class="liked-by">
+                            <span><img src="../assets/images/img/user.jpg" alt=""></span>
+                            <span><img src="../assets/images/img/user.jpg" alt=""></span>
+                            <span><img src="../assets/images/img/user.jpg" alt=""></span>
+                            <p><b>64</b> likes</p>
+                        </div>
+                    `
+                    feedContainer.appendChild(postElement)
+                })
+            })
+            .catch(error => {
+                console.error('Error:', error)
+            })
+    }
+
+    fetchPosts()
 })
 
 // --------------------SWIPER STORY--------------------
@@ -90,13 +140,12 @@ document.getElementById('profile-upload').addEventListener('change', function() 
 
 // --------------------UPLOAD STORIES IMAGES--------------------
 function uploadStoryImg() {
-    var fileInput = document.getElementById('add-story');
-    var file = fileInput.files[0];
-    var formData = new FormData();
-    formData.append('storyImg', file);
+    var fileInput = document.getElementById('add-story')
+    var file = fileInput.files[0]
+    var formData = new FormData()
+    formData.append('storyImg', file)
 
-    // Deshabilitar el input para evitar múltiples selecciones
-    fileInput.disabled = true;
+    fileInput.disabled = true
 
     fetch('./ajax/uploadStoryImg.php', {
         method: 'POST',
@@ -104,31 +153,33 @@ function uploadStoryImg() {
     })
     .then(response => response.text())
     .then(data => {
-        window.location.reload();
+        window.location.reload()
     })
     .catch(error => {
-        console.error('Error:', error);
-        alert("Failed to upload image.");
+        console.error('Error:', error)
+        alert("Failed to upload image.")
     })
     .finally(() => {
-        // Habilitar el input nuevamente y resetear su valor
-        fileInput.disabled = false;
-        fileInput.value = "";
-    });
+        fileInput.disabled = false
+        fileInput.value = ""
+    })
 }
 
 
 // --------------------HIGHLIGHT POST INPUT--------------------
 
 document.querySelector('.mini-button').addEventListener('click', () => {
-    const inputPost = document.querySelector('.input-post');
-    inputPost.classList.add('boxshadow1');
+    const inputPost = document.querySelector('.input-post')
+    inputPost.classList.add('boxshadow1')
+
+    // Desplazarse hasta el elemento
+    inputPost.scrollIntoView({ behavior: 'auto', block: 'center' })
 
     // -ESTO ES PARA QUITAR EL HIGHLIGHT DESPUES DE 3.5 SEGUNDOS
     setTimeout(() => {
-        inputPost.classList.remove('boxshadow1');
-    }, 3500);
-});
+        inputPost.classList.remove('boxshadow1')
+    }, 3500)
+})
 
 
 // --------------------LIKE BUTTON--------------------
@@ -141,23 +192,23 @@ document.querySelectorAll('.action-button span:first-child i').forEach(liked => 
 
 // --------------------SUPPORT POPUP--------------------
 function openSupportPopup() {
-    document.getElementById('supportPopup').style.display = 'flex';
+    document.getElementById('supportPopup').style.display = 'flex'
 }
 
 function closeSupportPopup() {
-    document.getElementById('supportPopup').style.display = 'none';
+    document.getElementById('supportPopup').style.display = 'none'
 }
 
 function sendSupportMessage() {
-    var message = document.getElementById('supportMessage').value;
+    var message = document.getElementById('supportMessage').value
 
     if (message.trim() === "") {
-        alert("Please enter a message before sending.");
-        return;
+        alert("Please enter a message before sending.")
+        return
     }
 
-    var formData = new FormData();
-    formData.append('message', message);
+    var formData = new FormData()
+    formData.append('message', message)
 
     fetch('./ajax/sendSupportMessage.php', {
         method: 'POST',
@@ -165,28 +216,34 @@ function sendSupportMessage() {
     })
     .then(response => response.text())
     .then(data => {
-        alert("Message sent successfully.");
-        closeSupportPopup();
+        alert("Message sent successfully.")
+        closeSupportPopup()
     })
     .catch(error => {
-        console.error('Error:', error);
-        alert("Failed to send message.");
-    });
+        console.error('Error:', error)
+        alert("Failed to send message.")
+    })
 }
 
 
 // --------------------USERS POPUP--------------------
-let allUsers = []; // Variable para almacenar todos los usuarios
-let followedUsers = []; // Variable para almacenar los usuarios seguidos
-let activeView = 'all'; // Variable para almacenar la vista activa
+let allUsers = []
+let followedUsers = []
+let activeView = 'all'
 
 function openUserListPopup() {
-    document.getElementById('userListPopup').style.display = 'flex';
+    document.getElementById('userListPopup').style.display = 'flex'
     showAllUsers();
 }
 
-function closeUserListPopup() {
-    document.getElementById('userListPopup').style.display = 'none';
+function closeUserListPopup(popupId) {
+    var popup = document.getElementById(popupId)
+    if (popup) {
+        popup.style.display = 'none'
+        if (popupId === 'userListPopup') {
+            location.reload()
+        }
+    }
 }
 
 function showAllUsers() {
@@ -194,13 +251,13 @@ function showAllUsers() {
     .then(response => response.json())
     .then(data => {
         allUsers = data;
-        renderUserList(allUsers);
-        setActiveView('all');
+        renderUserList(allUsers)
+        setActiveView('all')
     })
     .catch(error => {
-        console.error('Error:', error);
-        alert("Failed to load users.");
-    });
+        console.error('Error:', error)
+        alert("Failed to load users.")
+    })
 }
 
 function showFollowedUsers() {
@@ -208,45 +265,45 @@ function showFollowedUsers() {
     .then(response => response.json())
     .then(data => {
         if (data.message) {
-            renderUserList([], data.message);
+            renderUserList([], data.message)
         } else {
             followedUsers = data;
-            renderUserList(followedUsers);
+            renderUserList(followedUsers)
         }
-        setActiveView('followed');
+        setActiveView('followed')
     })
     .catch(error => {
-        console.error('Error:', error);
-        alert("Failed to load followed users.");
-    });
+        console.error('Error:', error)
+        alert("Failed to load followed users.")
+    })
 }
 
 function renderUserList(users, message = null) {
-    const userListContent = document.getElementById('userListContent');
-    userListContent.innerHTML = '';
+    const userListContent = document.getElementById('userListContent')
+    userListContent.innerHTML = ''
 
     if (message) {
-        const messageItem = document.createElement('div');
-        messageItem.className = 'message-item';
-        messageItem.textContent = message;
-        userListContent.appendChild(messageItem);
-        return;
+        const messageItem = document.createElement('div')
+        messageItem.className = 'message-item'
+        messageItem.textContent = message
+        userListContent.appendChild(messageItem)
+        return
     }
 
     if (users.length === 0) {
-        const notFoundItem = document.createElement('div');
-        notFoundItem.className = 'message-item';
-        notFoundItem.textContent = 'User not found';
-        userListContent.appendChild(notFoundItem);
-        return;
+        const notFoundItem = document.createElement('div')
+        notFoundItem.className = 'message-item'
+        notFoundItem.textContent = 'User not found'
+        userListContent.appendChild(notFoundItem)
+        return
     }
 
     users.forEach(user => {
-        const userItem = document.createElement('div');
-        userItem.className = 'user-item';
+        const userItem = document.createElement('div')
+        userItem.className = 'user-item'
 
-        const followButtonText = user.is_following == 1 ? 'Unfollow' : 'Follow';
-        const followButtonClass = user.is_following == 1 ? 'btn btn-primary' : 'btn btn-secondary';
+        const followButtonText = user.is_following == 1 ? 'Unfollow' : 'Follow'
+        const followButtonClass = user.is_following == 1 ? 'btn btn-primary' : 'btn btn-secondary'
 
         userItem.innerHTML = `
             <img src="${user.profile_img}" alt="${user.user_handle}">
@@ -255,32 +312,32 @@ function renderUserList(users, message = null) {
                 <p>@${user.user_handle}</p>
             </div>
             <button class="${followButtonClass}" onclick="toggleFollow(${user.id}, ${user.is_following})">${followButtonText}</button>
-        `;
+        `
 
-        userListContent.appendChild(userItem);
-    });
+        userListContent.appendChild(userItem)
+    })
 }
 
 function filterUserList() {
-    const searchTerm = document.getElementById('userSearchInput').value.toLowerCase();
-    let filteredUsers = [];
+    const searchTerm = document.getElementById('userSearchInput').value.toLowerCase()
+    let filteredUsers = []
 
     if (activeView === 'all') {
         filteredUsers = allUsers.filter(user => 
             user.user_handle.toLowerCase().includes(searchTerm) || 
             user.first_name.toLowerCase().includes(searchTerm)
-        );
+        )
     } else if (activeView === 'followed') {
         filteredUsers = followedUsers.filter(user => 
             user.user_handle.toLowerCase().includes(searchTerm) || 
             user.first_name.toLowerCase().includes(searchTerm)
-        );
+        )
     }
 
-    renderUserList(filteredUsers);
+    renderUserList(filteredUsers)
 }
 
-document.getElementById('userSearchInput').addEventListener('input', filterUserList);
+document.getElementById('userSearchInput').addEventListener('input', filterUserList)
 
 function toggleFollow(userId, isFollowing) {
     const action = isFollowing ? 'unfollow' : 'follow';
@@ -293,27 +350,50 @@ function toggleFollow(userId, isFollowing) {
         if (activeView === 'all') {
             showAllUsers();
         } else if (activeView === 'followed') {
-            showFollowedUsers();
+            showFollowedUsers()
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert(`Failed to ${action} user.`);
-    });
+        alert(`Failed to ${action} user.`)
+    })
 }
 
 function setActiveView(view) {
-    document.getElementById('userSearchInput').value = ''; // Clear search input
-    activeView = view;
+    document.getElementById('userSearchInput').value = ''
+    activeView = view
 
     if (view === 'all') {
-        document.getElementById('followedUsersBtn').classList.remove('btn-primary');
-        document.getElementById('followedUsersBtn').classList.remove('btn-secondary');
-        document.getElementById('allUsersBtn').classList.add('btn-primary');
+        document.getElementById('followedUsersBtn').classList.remove('btn-primary')
+        document.getElementById('followedUsersBtn').classList.remove('btn-secondary')
+        document.getElementById('allUsersBtn').classList.add('btn-primary')
         
     } else if (view === 'followed') {
-        document.getElementById('allUsersBtn').classList.remove('btn-primary');
-        document.getElementById('allUsersBtn').classList.add('btn-secondary');
-        document.getElementById('followedUsersBtn').classList.add('btn-primary');
+        document.getElementById('allUsersBtn').classList.remove('btn-primary')
+        document.getElementById('allUsersBtn').classList.add('btn-secondary')
+        document.getElementById('followedUsersBtn').classList.add('btn-primary')
     }
+}
+
+
+// --------------------SUBMIT POST--------------------
+function submitPost(event) {
+    event.preventDefault()
+    var form = document.querySelector('.input-post')
+    if (!form) {
+        console.error("Formulario no encontrado")
+        return
+    }
+
+    var formData = new FormData(form);
+
+    fetch('./ajax/submitPost.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {})
+    .catch(error => {
+        console.error('Error:', error)
+    })
 }

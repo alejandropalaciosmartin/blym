@@ -134,10 +134,23 @@ nav .search-bar input[type="search"]{
 nav .search-bar input[type="search"]::placeholder{
     color: var(--color-gray);
 }
-.add-post{
+.add-post {
     display: flex;
     align-items: center;
     gap: 2rem;
+}
+
+.add-post textarea {
+    width: 80%;
+    max-width: 500px; /* Ajusta este valor según sea necesario */
+    height: auto;
+    resize: none; /* Opcional: para evitar que el usuario redimensione el textarea */
+    overflow-wrap: break-word; /* Para asegurarse de que las palabras largas se rompan */
+    white-space: pre-wrap; /* Para preservar los saltos de línea */
+    box-sizing: border-box; /* Para incluir padding y border en el ancho y alto */
+    border-radius: 0;
+    border: none;
+    padding: 0;
 }
 .logo h3{
     font-size: 1.6rem;
@@ -402,6 +415,10 @@ aside .menu-item:last-child{
     align-items: center;
     position: relative;
 }
+.feeds .feed .feed-middle p{
+    margin-left: 15px;
+    margin-top: 15px;
+}
 .feed .feed-top .user{
     display: flex;
     gap: 1rem;
@@ -502,8 +519,8 @@ aside .menu-item:last-child{
     position: fixed;
     top: 0;
     justify-content: center;
-    z-index: 9;
-    background: var(--color-black);
+    z-index: 11;
+    background: rgba(0, 0, 0, 0.669);
     display: none;
 }
 .popup>div{

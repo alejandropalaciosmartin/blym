@@ -105,12 +105,16 @@ if ($story_row) {
                      </a>
 
                      <a class="menu-item" onclick="openSupportPopup()">
-                        <span><img src="../assets/images/svg/chat-left-dots.svg" alt=""></span> 
+                        <span><img src="" alt=""></span> 
                         <h3>Support</h3>
                      </a>
 
                      <a class="menu-item">
                         <span><img src="../assets/images/svg/bookmarks.svg" alt=""></span> <h3>Book Marks</h3>
+                     </a>
+
+                     <a class="menu-item">
+                        <span><img src="../assets/images/svg/chat-left-dots.svg" alt=""></span> <h3>My Posts</h3>
                      </a>
                 
                 </aside>
@@ -143,7 +147,7 @@ if ($story_row) {
                                         echo '<div class="story swiper-slide">
                                                 <img src="../assets/storiesImg/' . htmlspecialchars($story['src']) . '" alt="">
                                                 <div class="profile-picture">
-                                                    <img src="' . $profile_img . '" alt="">
+                                                    <img src="' . $profile_img . '" alt="" class="user-image">
                                                 </div>
                                                 <small><i class="fa fa-add"></i></small>
                                                 <p>' . htmlspecialchars($story['user_handle']) . '</p>
@@ -156,56 +160,16 @@ if ($story_row) {
                     </div>
 
                     <!-- .............Post Input............. -->
-                    <form class="add-post input-post">
+                    <form class="add-post input-post" onsubmit="submitPost(event)" enctype="multipart/form-data">
                         <div class="profile-picture" id="my-profile-picture">
                             <img src="<?php echo $img; ?>" class="user-image" alt="">
                         </div>
-                        <input type="text" placeholder="Type something" id="add-post">
-                        <input type="submit" value="post" class="btn btn-primary">
+                        <textarea name="post_text" placeholder="Type something" id="add-post" maxlength="500"></textarea>
+                        <input type="submit" value="Post" class="btn btn-primary">
                     </form>
 
                     <!-- .............Feed Aria Start............. -->
-                    <div class="feeds">
-                        <div class="feed">
-                            <!-- ....Feed Top.... -->
-                            <div class="feed-top">
-                                <div class="user">
-                                    <div class="profile-picture">
-                                        <img src="../assets/images/img/user.jpg" alt="">
-                                    </div>
-                                    <div class="info">
-                                        <h3>Paco</h3>
-                                        <div class="time text-gry">
-                                            <small>1 hour ago</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- ....Feed Middle.... -->
-                            <div class="feed-middle">
-                                <p>Hey, I'm Paco, I'm a web developer and I'm looking for a job. I have experience in HTML, CSS, JS, PHP, and MySQL. I'm also familiar with frameworks like Bootstrap and jQuery. I'm looking for a job in a company where I can grow and learn new things. If you have any job opportunities, please let me know. Thank you!</p>
-                            </div>
-
-                            <!-- ....Feed Action Aria.... -->
-                            <div class="action-button">
-                                <div class="interaction-button">
-                                    <span><i class="fas fa-heart"></i></span>
-                                    <span><i class="fas fa-bookmark"></i></span>
-                                </div>
-                                
-                                
-                            </div>
-
-                            <!-- ....Liked By.... -->
-                            <div class="liked-by">
-                                <span><img src="../assets/images/img/user.jpg" alt=""></span>
-                                <span><img src="../assets/images/img/user.jpg" alt=""></span>
-                                <span><img src="../assets/images/img/user.jpg" alt=""></span>
-                                <p><b>64</b> likes</p>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="feeds"></div>
                 </div>
             </div>
 
@@ -286,7 +250,7 @@ if ($story_row) {
                     <!-- Aquí se cargará la lista de usuarios -->
                 </div>
             </div>
-            <span class="close" onclick="closeUserListPopup()"><i class="fa fa-close"></i></span>
+            <span class="close" onclick="closeUserListPopup('userListPopup')"><i class="fa fa-close"></i></span>
         </div>
     </div>
 
@@ -295,7 +259,7 @@ if ($story_row) {
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <!-- =============== Custom JS Link =============== -->
-    <script src="./scripts.js?v=2"></script>
+    <script src="./scripts.js"></script>
 
 </body>
 </html>
