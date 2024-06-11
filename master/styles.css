@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
 *, *::before, *::after {
     margin: 0;
     padding: 0;
@@ -29,7 +31,7 @@
 }
 
 body{
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: var(--color-dark);
     background-color: var(--color-light);
 }
@@ -58,7 +60,6 @@ img{
     object-fit: cover;
     object-position: center;
 }
-
 .btn{
     padding: var(--btn-padding);
     display: inline-block;
@@ -74,9 +75,6 @@ img{
 .btn-primary{
     background-color: var(--color-primary);
     color: var(--color-white);
-}
-.text-bold{
-    font-weight: 500;
 }
 .text-gry{
     color: var(--color-gray);

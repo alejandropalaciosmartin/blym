@@ -4,12 +4,13 @@ const loginBtn = document.getElementById('login')
 
 registerBtn.addEventListener('click', () => {
     container.classList.add("active")
-});
+})
 
 loginBtn.addEventListener('click', () => {
     container.classList.remove("active")
-});
+})
 
+// -- CHANGE EYE MODE AND INPUT TYPE (SIGN-IN FORM)
 function togglePasswordVisibilitySignIn() {
     var passwordInput = document.getElementById('password_in')
     var firstEyeIcon = document.querySelector('#eye_in i')
@@ -26,6 +27,7 @@ function togglePasswordVisibilitySignIn() {
     }
 }
 
+// -- CHANGE EYE MODE AND INPUT TYPE (SIGN-UP FORM)
 function togglePasswordVisibilitySignUp() {
     var passwordInput = document.getElementById('password_up')
     var secondEyeIcon = document.querySelector('#eye_up i')
