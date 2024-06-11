@@ -8,56 +8,68 @@ document.addEventListener("DOMContentLoaded", function() {
         addStoryLabel.style.display = 'flex'
     }
 
-    function fetchPosts() {
-        fetch('./ajax/fetchPosts.php')
-            .then(response => response.json())
-            .then(data => {
-                const feedContainer = document.querySelector('.feeds')
-                feedContainer.innerHTML = ''
-
-                data.forEach(post => {
-                    const postElement = document.createElement('div')
-                    postElement.className = 'feed'
-                    postElement.innerHTML = `
-                        <div class="feed-top">
-                            <div class="user">
-                                <div class="profile-picture">
-                                    <img src="../assets/usersImg/${post.profile_img}" alt="" class="user-image">
-                                </div>
-                                <div class="info">
-                                    <h3>${post.first_name}</h3>
-                                    <div class="time text-gry">
-                                        <small>${post.created_at}</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="feed-middle">
-                            <p>${post.post_text}</p>
-                        </div>
-                        <div class="action-button">
-                            <div class="interaction-button">
-                                <span><i class="fas fa-heart"></i></span>
-                                <span><i class="fas fa-bookmark"></i></span>
-                            </div>
-                        </div>
-                        <div class="liked-by">
-                            <span><img src="../assets/images/img/user.jpg" alt=""></span>
-                            <span><img src="../assets/images/img/user.jpg" alt=""></span>
-                            <span><img src="../assets/images/img/user.jpg" alt=""></span>
-                            <p><b>64</b> likes</p>
-                        </div>
-                    `
-                    feedContainer.appendChild(postElement)
-                })
-            })
-            .catch(error => {
-                console.error('Error:', error)
-            })
-    }
+    
 
     fetchPosts()
 })
+
+// -------------------- FETCH POSTS --------------------
+function fetchPosts() {
+    fetch('./ajax/fetchPosts.php')
+        .then(response => response.json())
+        .then(data => {
+            const feedContainer = document.querySelector('.feeds')
+            feedContainer.innerHTML = ''
+
+            data.forEach(post => {
+                const postElement = document.createElement('div')
+                postElement.className = 'feed'
+                postElement.innerHTML = `
+                    <div class="feed-top">
+                        <div class="user">
+                            <div class="profile-picture">
+                                <img src="../assets/usersImg/${post.profile_img}" alt="" class="user-image">
+                            </div>
+                            <div class="info">
+                                <h3>${post.first_name}</h3>
+                                <div class="time text-gry">
+                                    <small>${post.created_at}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feed-middle">
+                        <p>${post.post_text}</p>
+                    </div>
+                    <div class="liked-by">
+                        <span>
+                            <i class="fas fa-heart ${post.liked != 0 ? 'liked' : ''}" data-post-id="${post.post_id}"></i>
+                        </span>
+                        <p><b>${post.likes_count}</b> likes</p>
+                    </div>
+                `
+                feedContainer.appendChild(postElement)
+            })
+
+            document.querySelectorAll('.fa-heart').forEach(heart => {
+                heart.addEventListener('click', () => {
+                    const postId = heart.getAttribute('data-post-id')
+                    if (heart.classList.contains('liked')) {
+                        unlikePost(postId, heart)
+                    } else {
+                        likePost(postId, heart)
+                    }
+                })
+            })
+        })
+        .catch(error => {
+            console.error('Error:', error)
+        })
+}
+
+
+
+
 
 // --------------------SWIPER STORY--------------------
 
@@ -392,7 +404,152 @@ function submitPost(event) {
         body: formData
     })
     .then(response => response.text())
-    .then(data => {})
+    .then(data => {
+        window.location.reload()
+    })
+    .catch(error => {
+        console.error('Error:', error)
+    })
+}
+
+// -------------------- DIV 1/2/3 FUNCTIONALITY (DINAMIC MENU) --------------------
+document.getElementById("btn1").addEventListener("click", function() {
+    setActiveButton("btn1")
+    showDiv("div1")
+})
+document.getElementById("btn2").addEventListener("click", function() {
+    setActiveButton("btn2")
+    showDiv("div2")
+})
+function setActiveButton(btnId) {
+    var buttons = document.querySelectorAll("a");
+    var searchInput = document.querySelector("input[type='search']")
+  
+    buttons.forEach(function(button) {
+      button.classList.remove("active")
+})
+    document.getElementById(btnId).classList.add("active")
+  
+    searchInput.value = ""
+}
+  
+// --------------------SHOW DIV--------------------
+function showDiv(divId) {
+    var divs = document.querySelectorAll("div[id^='div']")
+    var searchBars = document.querySelectorAll('.search-bar')
+
+    divs.forEach(function(div) {
+        div.classList.add("hidden")
+    })
+    searchBars.forEach(function(searchBar) {
+        searchBar.classList.add('hidden')
+    })
+
+    var selectedDiv = document.getElementById(divId)
+    if (selectedDiv) {
+        selectedDiv.classList.remove("hidden")
+    }
+
+    var searchBar = document.querySelector(`#search-bar-${divId}`)
+    if (searchBar) {
+        searchBar.classList.remove("hidden")
+        document.querySelector(`#search-bar-${divId} input[type="search"]`).value = ""
+    }
+
+    if (divId === "div1") {
+        fetchPosts()
+    } else if (divId === "div2") {
+        fetchMyPosts()
+    }
+}
+
+
+// -------------------- FETCH MY POSTS --------------------
+function fetchMyPosts() {
+    fetch('./ajax/fetchMyPosts.php')
+        .then(response => response.json())
+        .then(data => {
+            const feedContainer = document.querySelector('.my-feeds')
+            feedContainer.innerHTML = ''
+
+            data.forEach(post => {
+                const postElement = document.createElement('div')
+                postElement.className = 'feed'
+                postElement.innerHTML = `
+                    <div class="feed-top">
+                        <div class="user">
+                            <div class="profile-picture">
+                                <img src="../assets/usersImg/${post.profile_img}" alt="" class="user-image">
+                            </div>
+                            <div class="info">
+                                <h3>${post.first_name}</h3>
+                                <div class="time text-gry">
+                                    <small>${post.created_at}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="feed-middle">
+                        <p>${post.post_text}</p>
+                    </div>
+                    <div class="liked-by">
+                        <span>
+                            <i class="fas fa-heart ${post.liked != 0 ? 'liked' : ''}" data-post-id="${post.post_id}"></i>
+                        </span>
+                        <p><b>${post.likes_count}</b> likes</p>
+                    </div>
+                `
+                feedContainer.appendChild(postElement)
+            })
+
+            document.querySelectorAll('.fa-heart').forEach(heart => {
+                heart.addEventListener('click', () => {
+                    const postId = heart.getAttribute('data-post-id')
+                    if (heart.classList.contains('liked')) {
+                        unlikePost(postId, heart)
+                    } else {
+                        likePost(postId, heart)
+                    }
+                })
+            })
+        })
+        .catch(error => {
+            console.error('Error:', error)
+        })
+}
+
+
+function likePost(postId, heartElement) {
+    fetch('./ajax/likePost.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `post_id=${postId}`
+    })
+    .then(data => {
+            heartElement.classList.add('liked')
+            const likesCountElement = heartElement.parentElement.nextElementSibling.querySelector('b')
+            likesCountElement.textContent = parseInt(likesCountElement.textContent) + 1
+    })
+    .catch(error => {
+        console.error('Error:', error)
+    })
+}
+
+function unlikePost(postId, heartElement) {
+    fetch('./ajax/unlikePost.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `post_id=${postId}`
+    })
+    .then(data => {
+        heartElement.classList.remove('liked')
+        const likesCountElement = heartElement.parentElement.nextElementSibling.querySelector('b')
+        likesCountElement.textContent = parseInt(likesCountElement.textContent) - 1
+    })
     .catch(error => {
         console.error('Error:', error)
     })

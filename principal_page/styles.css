@@ -438,35 +438,15 @@ aside .menu-item:last-child{
     font-size: 1.4rem;
     margin: 0.6rem;
 }
-.action-button span:first-child i{
+.liked-by span i{
     font-weight: normal;
 }
-.action-button span:nth-child(2) i{
-    font-weight: normal;
-}
-.bookmark{
-    font-weight: normal;
+.liked-by p{
+    margin-left: 5px;
 }
 .liked-by{
     display: flex;
-}
-.liked-by span{
-    border-radius: 50%;
-    display: block;
-    height: 1.4rem;
-    width: 1.4rem;
-    overflow: hidden;
-    margin-left: -.6rem;
-    border: 2px solid var(--color-white);
-}
-.liked-by span:first-child{
-    margin: 0;
-}
-.liked-by p{
-    margin-left: .5rem;
-}
-.hars-tag{
-    color: var(--color-primary)
+    margin: 0.6rem;
 }
 .edit .edit-menu{
     background: var(--color-white);
@@ -501,6 +481,26 @@ aside .menu-item:last-child{
     color: var(--color-danger);
 }
 /* .... End Feed Aria .... */
+
+.my-feeds .feed{
+    background: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    margin: 1rem auto;
+    line-height: 1.5;
+    font-size: .85rem;
+    position: relative;
+}
+.my-feeds .feed .feed-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+.my-feeds .feed .feed-middle p{
+    margin-left: 15px;
+    margin-top: 15px;
+}
 
 /* ........... End Main Medle ........... */
 
@@ -714,6 +714,9 @@ textarea {
     object-fit: cover;
     object-position: center;
 }
+.hidden {
+    display: none;
+}
 /* ========================== End JS Other Classes ========================== */
 
 
@@ -794,7 +797,7 @@ textarea {
             border-top-left-radius: 0;
             border-top-right-radius: 0;
         }
-        aside .menu-item:nth-last-child(2) {
+        aside .menu-item:nth-last-child(1) {
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
         }
@@ -815,6 +818,12 @@ textarea {
     @media (max-width: 520px) {
         .middle-container{
             max-width: 380px;
+        }
+        .popup-box{
+            width: 325px;
+        }
+        .search-bar {
+            width: 250px;
         }
     }
     /* ........... MAX WIDTH(420PX) ........... */

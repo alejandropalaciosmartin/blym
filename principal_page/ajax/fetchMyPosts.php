@@ -8,14 +8,17 @@ include '../../assets/reusable/bd.php';
 $user_id = $_SESSION['user_id'];
 
 // Consulta para obtener los posts de las personas que sigues
-$sql = "SELECT p.post_id, p.post_text, p.created_at, u.first_name, u.profile_img,
-            (SELECT COUNT(*) FROM likes WHERE post_id = p.post_id) as likes_count,
-            (SELECT COUNT(*) FROM likes WHERE post_id = p.post_id AND user_id = $user_id) as liked
-        FROM posts p
-        JOIN followers f ON p.user_id = f.following_id
-        JOIN users u ON p.user_id = u.user_id
-        WHERE f.follower_id = $user_id
-        ORDER BY p.created_at DESC";
+$sql = "
+    SELECT p.post_id, p.post_text, p.created_at, u.first_name, u.profile_img,
+           (SELECT COUNT(*) FROM likes WHERE post_id = p.post_id) as likes_count,
+           (SELECT COUNT(*) FROM likes WHERE post_id = p.post_id AND user_id = $user_id) as liked
+    FROM posts p
+    JOIN users u ON p.user_id = u.user_id
+    WHERE p.user_id = $user_id
+    ORDER BY p.created_at DESC
+
+";
+
 
 $result = $db->query($sql);
 

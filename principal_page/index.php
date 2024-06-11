@@ -48,7 +48,7 @@ if ($story_row) {
     <link rel="icon" href="../assets/images/svg/b.svg" type="image/x-icon">
 
     <!-- =============== CUSTOM CSS LINK =============== -->
-    <link rel="stylesheet" href="./styles.css?v=2">
+    <link rel="stylesheet" href="./styles.css">
 
     <!-- =============== Font Awesome Link =============== -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -94,7 +94,7 @@ if ($story_row) {
 
                 <!-- =============== Start Aside Bar =============== -->
                 <aside>
-                    <a class="menu-item active">
+                    <a class="menu-item active" id="btn1">
                         <span><img src="../assets/images/svg/house-door.svg" alt=""></span> <h3>Home</h3>
                      </a>
 
@@ -105,15 +105,11 @@ if ($story_row) {
                      </a>
 
                      <a class="menu-item" onclick="openSupportPopup()">
-                        <span><img src="" alt=""></span> 
+                        <span><img src="../assets/images/svg/question.svg" alt=""></span> 
                         <h3>Support</h3>
                      </a>
 
-                     <a class="menu-item">
-                        <span><img src="../assets/images/svg/bookmarks.svg" alt=""></span> <h3>Book Marks</h3>
-                     </a>
-
-                     <a class="menu-item">
+                     <a class="menu-item" id="btn2">
                         <span><img src="../assets/images/svg/chat-left-dots.svg" alt=""></span> <h3>My Posts</h3>
                      </a>
                 
@@ -124,6 +120,7 @@ if ($story_row) {
             <!-- =============== Main Middle Start =============== -->
             <div class="main-middle">
                 <div class="middle-container">
+
                     <!-- .............Start Stories............. -->
                     <div class="stories">
                         <div class="stories-wrapper swiper mySwiper">
@@ -169,7 +166,13 @@ if ($story_row) {
                     </form>
 
                     <!-- .............Feed Aria Start............. -->
-                    <div class="feeds"></div>
+                    <div id="div1" class="">
+                        <div class="feeds"></div>
+                    </div>
+                    <div id="div2" class="hidden">
+                        <div class="my-feeds"></div>
+                    </div>
+                    
                 </div>
             </div>
 
@@ -259,7 +262,7 @@ if ($story_row) {
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <!-- =============== Custom JS Link =============== -->
-    <script src="./scripts.js"></script>
+    <script src="./scripts.js?v=2"></script>
 
 </body>
 </html>
